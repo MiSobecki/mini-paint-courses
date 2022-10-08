@@ -1,4 +1,4 @@
-package courses.paint.mini.usecase;
+package courses.paint.mini.usecase.course;
 
 import courses.paint.mini.model.course.Course;
 import courses.paint.mini.model.course.CourseFilters;
