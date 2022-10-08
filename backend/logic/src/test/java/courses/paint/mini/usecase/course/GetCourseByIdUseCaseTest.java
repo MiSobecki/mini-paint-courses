@@ -1,8 +1,8 @@
-package courses.paint.mini.usecase;
+package courses.paint.mini.usecase.course;
 
 import courses.paint.mini.exception.course.NonExistingCourseException;
-import courses.paint.mini.port.CommandCoursePort;
 import courses.paint.mini.port.RequestCoursePort;
+import courses.paint.mini.usecase.course.GetCourseByIdUseCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -14,15 +14,13 @@ import java.util.Optional;
 import static org.mockito.Mockito.doReturn;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DeleteCourseUseCaseTest {
+public class GetCourseByIdUseCaseTest {
 
     @Mock
     private RequestCoursePort requestCoursePort;
-    @Mock
-    private CommandCoursePort commandCoursePort;
 
     @InjectMocks
-    private DeleteCourseUseCase deleteCourseUseCase;
+    private GetCourseByIdUseCase getCourseByIdUseCase;
 
     @Test(expected = NonExistingCourseException.class)
     public void shouldThrowNonExistingCourseExceptionWhileCourseOfGivenIdDoesNotExist() {
@@ -32,7 +30,7 @@ public class DeleteCourseUseCaseTest {
         doReturn(Optional.empty()).when(requestCoursePort).getById(courseId);
 
         // when
-        deleteCourseUseCase.execute(courseId);
+        getCourseByIdUseCase.execute(courseId);
     }
 
 }

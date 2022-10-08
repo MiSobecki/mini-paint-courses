@@ -1,4 +1,4 @@
-package courses.paint.mini.usecase;
+package courses.paint.mini.usecase.course;
 
 import courses.paint.mini.exception.course.NonUniqueCourseException;
 import courses.paint.mini.model.course.Course;
@@ -12,7 +12,7 @@ public class CreateCourseUseCase {
     private final RequestCoursePort requestCoursePort;
     private final CommandCoursePort commandCoursePort;
 
-    Course execute(Course course) {
+    public Course execute(Course course) {
         var existingCourse = requestCoursePort.getByTitleAndUserId(
                 course.getTitle(),
                 course.getUser().getId());

@@ -1,4 +1,4 @@
-package courses.paint.mini.usecase;
+package courses.paint.mini.usecase.course;
 
 import courses.paint.mini.model.User;
 import courses.paint.mini.model.course.Course;
@@ -6,6 +6,7 @@ import courses.paint.mini.model.course.CourseStep;
 import courses.paint.mini.model.game.Miniature;
 import courses.paint.mini.port.CommandCoursePort;
 import courses.paint.mini.port.RequestCoursePort;
+import courses.paint.mini.usecase.course.UpdateCourseUseCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
