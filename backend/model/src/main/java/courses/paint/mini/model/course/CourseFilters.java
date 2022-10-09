@@ -1,15 +1,11 @@
 package courses.paint.mini.model.course;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class CourseFilters {
-
-    // TODO implement fields
-    private String courseTitle;
-
+public record CourseFilters(String courseTitle,
+                            String gameId,
+                            String factionId,
+                            String miniatureId,
+                            String paintId,
+                            String userId,
+                            String miniatureProducerId,
+                            String modelingProductId) {
 }
