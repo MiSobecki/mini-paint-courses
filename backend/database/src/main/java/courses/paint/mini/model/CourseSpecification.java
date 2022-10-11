@@ -24,7 +24,9 @@ public class CourseSpecification implements Specification<CourseEntity> {
         if (courseFilters.courseTitle() != null) {
             predicates.add(
                     criteriaBuilder.like(
-                            root.get("title"),
+                            criteriaBuilder.lower(
+                                    root.get("title")
+                            ),
                             toPattern(courseFilters.courseTitle()))
             );
         }
@@ -98,7 +100,7 @@ public class CourseSpecification implements Specification<CourseEntity> {
     }
 
     private String toPattern(String text) {
-        return "%" + text + "%";
+        return "%" + text.toLowerCase() + "%";
     }
 
 }
