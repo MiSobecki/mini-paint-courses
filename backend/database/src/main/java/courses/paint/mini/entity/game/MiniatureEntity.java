@@ -1,12 +1,21 @@
 package courses.paint.mini.entity.game;
 
-import courses.paint.mini.model.game.Faction;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "miniature")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class MiniatureEntity {
 
     @Id
@@ -24,4 +33,16 @@ public class MiniatureEntity {
     @JoinColumn(name = "faction_id")
     private FactionEntity faction;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        MiniatureEntity that = (MiniatureEntity) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

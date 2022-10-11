@@ -2,14 +2,12 @@ package courses.paint.mini.model.game;
 
 import courses.paint.mini.constraint.GameType;
 import courses.paint.mini.model.Producer;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id", "title"})

@@ -2,14 +2,23 @@ package courses.paint.mini.entity.game;
 
 import courses.paint.mini.constraint.GameType;
 import courses.paint.mini.entity.ProducerEntity;
-import org.hibernate.annotations.Fetch;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "game")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class GameEntity {
 
     @Id
@@ -31,4 +40,16 @@ public class GameEntity {
     @JoinColumn(name = "producer_id")
     private ProducerEntity producer;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        GameEntity that = (GameEntity) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

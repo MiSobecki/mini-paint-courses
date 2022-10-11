@@ -68,11 +68,14 @@ public class CourseSpecification implements Specification<CourseEntity> {
             );
         }
 
-        if (courseFilters.userId() != null) {
+        if (courseFilters.username() != null) {
             predicates.add(
-                    criteriaBuilder.equal(
-                            root.get("user"),
-                            courseFilters.userId())
+                    criteriaBuilder.like(
+                            criteriaBuilder.lower(
+                                    root.join("user")
+                                            .get("username")
+                            ),
+                            toPattern(courseFilters.username()))
             );
         }
 

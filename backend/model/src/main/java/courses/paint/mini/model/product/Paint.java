@@ -2,12 +2,10 @@ package courses.paint.mini.model.product;
 
 import courses.paint.mini.constraint.PaintType;
 import courses.paint.mini.model.Producer;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id", "name", "type"})

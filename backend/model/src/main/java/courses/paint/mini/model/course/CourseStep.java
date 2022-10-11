@@ -2,15 +2,13 @@ package courses.paint.mini.model.course;
 
 import courses.paint.mini.model.product.ModelingProduct;
 import courses.paint.mini.model.product.Paint;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Map;
 import java.util.Set;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id", "orderNumber"})
