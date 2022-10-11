@@ -2,10 +2,10 @@ package courses.paint.mini.port;
 
 import courses.paint.mini.model.course.Course;
 import courses.paint.mini.model.course.CourseFilters;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
 import java.util.Optional;
-import java.util.Set;
 
 public interface RequestCoursePort {
 
@@ -14,7 +14,7 @@ public interface RequestCoursePort {
     Optional<Course> getByTitleAndUserId(String title,
                                          String userId);
 
-    Set<Course> getAll(CourseFilters courseFilters,
-                       Pageable pageable);
+    Page<Course> getAll(CourseFilters courseFilters,
+                        Pageable pageable);
 
 }
