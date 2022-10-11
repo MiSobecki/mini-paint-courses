@@ -9,12 +9,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UpdateCourseUseCase {
 
-    private final RequestCoursePort requestCoursePort;
+    private final GetCourseByIdUseCase getCourseByIdUseCase;
     private final CommandCoursePort commandCoursePort;
 
     public Course execute(Course course,
                           String id) {
-        var existingCourse = requestCoursePort.getById(id).orElseThrow(() -> new NonExistingCourseException(id));
+        var existingCourse = getCourseByIdUseCase.execute(id);
 
         existingCourse.setTitle(course.getTitle());
         existingCourse.setSteps(course.getSteps());

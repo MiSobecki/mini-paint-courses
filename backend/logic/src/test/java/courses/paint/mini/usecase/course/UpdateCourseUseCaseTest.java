@@ -26,7 +26,7 @@ import static org.mockito.Mockito.*;
 public class UpdateCourseUseCaseTest {
 
     @Mock
-    private RequestCoursePort requestCoursePort;
+    private GetCourseByIdUseCase getCourseByIdUseCase;
     @Mock
     private CommandCoursePort commandCoursePort;
 
@@ -52,7 +52,7 @@ public class UpdateCourseUseCaseTest {
                         "pass"));
 
         var existingCourse = mock(Course.class);
-        doReturn(Optional.of(existingCourse)).when(requestCoursePort).getById(courseId);
+        doReturn(existingCourse).when(getCourseByIdUseCase).execute(courseId);
 
         // when
         updateCourseUseCase.execute(course, courseId);
