@@ -5,7 +5,7 @@ public record CourseFilters(String courseTitle,
                             String factionId,
                             String miniatureId,
                             String paintId,
-                            String userId,
+                            String username,
                             String miniatureProducerId,
                             String modelingProductId) {
 }
