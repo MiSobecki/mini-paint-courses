@@ -5,7 +5,7 @@ import courses.paint.mini.model.CourseSpecification;
 import courses.paint.mini.model.course.Course;
 import courses.paint.mini.model.course.CourseFilters;
 import courses.paint.mini.port.RequestCoursePort;
-import courses.paint.mini.repository.CourseRepository;
+import courses.paint.mini.repository.course.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -3,7 +3,7 @@ package courses.paint.mini.adapter;
 import courses.paint.mini.mapper.course.CourseMapper;
 import courses.paint.mini.model.course.Course;
 import courses.paint.mini.port.CommandCoursePort;
-import courses.paint.mini.repository.CourseRepository;
+import courses.paint.mini.repository.course.CourseRepository;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
