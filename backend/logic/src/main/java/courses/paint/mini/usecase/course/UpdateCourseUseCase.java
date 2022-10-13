@@ -18,6 +18,7 @@ public class UpdateCourseUseCase {
 
         existingCourse.setTitle(course.getTitle());
         existingCourse.setSteps(course.getSteps());
+        existingCourse.setShortDescription(course.getShortDescription());
 
         return commandCoursePort.update(existingCourse);
     }

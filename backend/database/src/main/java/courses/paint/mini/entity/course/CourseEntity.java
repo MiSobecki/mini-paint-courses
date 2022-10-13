@@ -29,7 +29,10 @@ public class CourseEntity {
     @Column(length = 30, nullable = false)
     private String title;
 
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "course", fetch = FetchType.LAZY)
+    @Column(length = 500)
+    private String shortDescription;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.LAZY)
     private Set<CourseStepEntity> steps;
 
     @ManyToOne

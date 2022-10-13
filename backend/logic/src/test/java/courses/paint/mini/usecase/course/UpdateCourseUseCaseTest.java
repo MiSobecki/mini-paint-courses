@@ -37,6 +37,8 @@ public class UpdateCourseUseCaseTest {
     private ArgumentCaptor<String> titleCaptor;
     @Captor
     private ArgumentCaptor<Set<CourseStep>> stepsCaptor;
+    @Captor
+    private ArgumentCaptor<String> descCaptor;
 
     @Test
     public void shouldUpdateCourseCorrectly() {
@@ -45,6 +47,7 @@ public class UpdateCourseUseCaseTest {
         var course = new Course(
                 courseId,
                 "test",
+                "shortDesc",
                 new HashSet<>(),
                 new Miniature(),
                 new User("234",
@@ -62,6 +65,8 @@ public class UpdateCourseUseCaseTest {
         assertEquals(course.getTitle(), titleCaptor.getValue());
         verify(existingCourse).setSteps(stepsCaptor.capture());
         assertEquals(course.getSteps(), stepsCaptor.getValue());
+        verify(existingCourse).setShortDescription(descCaptor.capture());
+        assertEquals(course.getShortDescription(), descCaptor.getValue());
 
         verify(existingCourse, never()).setMiniature(any());
         verify(existingCourse, never()).setId(any());

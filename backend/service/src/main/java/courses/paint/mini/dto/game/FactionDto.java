@@ -1,17 +1,19 @@
-package courses.paint.mini.model.game;
+package courses.paint.mini.dto.game;
 
 import lombok.*;
+
+import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id", "name"})
-public class Miniature {
+public class FactionDto {
 
     private String id;
     private String name;
-    private String type;
-    private Faction faction;
+    private Set<CourseMiniatureDto> miniatures;
+    private String gameTitle;
 
 }

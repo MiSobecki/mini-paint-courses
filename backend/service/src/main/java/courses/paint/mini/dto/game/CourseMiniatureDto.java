@@ -1,4 +1,4 @@
-package courses.paint.mini.model.game;
+package courses.paint.mini.dto.game;
 
 import lombok.*;
 
@@ -7,11 +7,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id", "name"})
-public class Miniature {
+public class CourseMiniatureDto {
 
     private String id;
     private String name;
     private String type;
-    private Faction faction;
+    private String factionName;
 
 }
