@@ -18,7 +18,7 @@ public class CreateCourseUseCase {
                 course.getUser().getId());
 
         if (existingCourse.isPresent()) {
-            throw new NonUniqueCourseException(course.getTitle(), course.getId());
+            throw new NonUniqueCourseException(course.getTitle(), existingCourse.get().getId());
         }
 
         return commandCoursePort.create(course);

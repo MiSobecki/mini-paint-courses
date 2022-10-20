@@ -26,7 +26,7 @@ public class CourseEntity {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 100, nullable = false)
     private String title;
 
     @Column(length = 500)

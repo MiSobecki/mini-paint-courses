@@ -1,6 +1,6 @@
 package courses.paint.mini.mapper.course;
 
-import courses.paint.mini.constraint.PaintType;
+import courses.paint.mini.enums.PaintType;
 import courses.paint.mini.dto.course.CourseStepDto;
 import courses.paint.mini.model.Producer;
 import courses.paint.mini.model.course.CourseStep;

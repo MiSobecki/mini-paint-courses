@@ -1,6 +1,6 @@
 package courses.paint.mini.entity.product;
 
-import courses.paint.mini.constraint.PaintType;
+import courses.paint.mini.enums.PaintType;
 import courses.paint.mini.entity.ProducerEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public class PaintEntity {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 50, nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)

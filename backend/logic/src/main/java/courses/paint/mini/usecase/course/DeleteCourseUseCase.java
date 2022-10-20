@@ -8,11 +8,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DeleteCourseUseCase {
 
-    private final RequestCoursePort requestCoursePort;
+    private final GetCourseByIdUseCase getCourseByIdUseCase;
     private final CommandCoursePort commandCoursePort;
 
     public void execute(String id) {
-        requestCoursePort.getById(id).orElseThrow(() -> new NonExistingCourseException(id));
+        getCourseByIdUseCase.execute(id);
 
         commandCoursePort.delete(id);
     }

@@ -2,8 +2,7 @@ package courses.paint.mini.config.course;
 
 import courses.paint.mini.port.CommandCoursePort;
 import courses.paint.mini.port.RequestCoursePort;
-import courses.paint.mini.usecase.course.CreateCourseUseCase;
-import courses.paint.mini.usecase.course.GetAllCoursesFilteredUseCase;
+import courses.paint.mini.usecase.course.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +20,23 @@ public class CourseConfig {
     }
 
     @Bean
+    public GetCourseByIdUseCase getCourseByIdUseCase() {
+        return new GetCourseByIdUseCase(requestCoursePort);
+    }
+
+    @Bean
     public CreateCourseUseCase createCourseUseCase() {
         return new CreateCourseUseCase(requestCoursePort, commandCoursePort);
+    }
+
+    @Bean
+    public UpdateCourseUseCase updateCourseUseCase() {
+        return new UpdateCourseUseCase(getCourseByIdUseCase(), commandCoursePort);
+    }
+
+    @Bean
+    public DeleteCourseUseCase deleteCourseUseCase() {
+        return new DeleteCourseUseCase(getCourseByIdUseCase(), commandCoursePort);
     }
 
 }

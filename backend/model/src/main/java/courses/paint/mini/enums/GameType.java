@@ -1,4 +1,4 @@
-package courses.paint.mini.constraint;
+package courses.paint.mini.enums;
 
 public enum GameType {
 

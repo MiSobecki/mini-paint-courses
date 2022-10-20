@@ -30,20 +30,20 @@ public class CourseStepEntity {
     @Column(nullable = false)
     private Long orderNumber;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 100, nullable = false)
     private String title;
 
     @Column(length = 1000)
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "paint_technique_mapping",
             joinColumns = {@JoinColumn(name = "course_step_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "technique_id", referencedColumnName = "id")})
     @MapKeyJoinColumn(name = "paint_id")
     private Map<PaintEntity, PaintingTechniqueEntity> usedPaints;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "course_step_modeling_product",
             joinColumns = {@JoinColumn(name = "course_step_id")},

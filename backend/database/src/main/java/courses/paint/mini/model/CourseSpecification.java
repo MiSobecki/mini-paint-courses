@@ -1,6 +1,7 @@
 package courses.paint.mini.model;
 
 import courses.paint.mini.entity.course.CourseEntity;
+import courses.paint.mini.entity.product.PaintEntity;
 import courses.paint.mini.model.course.CourseFilters;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -36,7 +37,8 @@ public class CourseSpecification implements Specification<CourseEntity> {
                     criteriaBuilder.equal(
                             root.join("miniature")
                                     .join("faction")
-                                    .get("game"),
+                                    .join("game")
+                                    .get("id"),
                             courseFilters.gameId())
             );
         }
@@ -45,7 +47,8 @@ public class CourseSpecification implements Specification<CourseEntity> {
             predicates.add(
                     criteriaBuilder.equal(
                             root.join("miniature")
-                                    .get("faction"),
+                                    .join("faction")
+                                    .get("id"),
                             courseFilters.factionId())
             );
         }
@@ -53,18 +56,9 @@ public class CourseSpecification implements Specification<CourseEntity> {
         if (courseFilters.miniatureId() != null) {
             predicates.add(
                     criteriaBuilder.equal(
-                            root.get("miniature"),
+                            root.join("miniature")
+                                    .get("id"),
                             courseFilters.miniatureId())
-            );
-        }
-
-        if (courseFilters.paintId() != null) {
-            predicates.add(
-                    criteriaBuilder.equal(
-                            root.join("steps")
-                                    .join("usedPaints")
-                                    .get("paint_id"),
-                            courseFilters.paintId())
             );
         }
 
@@ -83,7 +77,10 @@ public class CourseSpecification implements Specification<CourseEntity> {
             predicates.add(
                     criteriaBuilder.equal(
                             root.join("miniature")
-                                    .get("producer"),
+                                    .join("faction")
+                                    .join("game")
+                                    .join("producer")
+                                    .get("id"),
                             courseFilters.miniatureProducerId())
             );
         }
@@ -93,8 +90,19 @@ public class CourseSpecification implements Specification<CourseEntity> {
                     criteriaBuilder.equal(
                             root.join("steps")
                                     .join("usedOtherModelingProducts")
-                                    .get("modeling_product_id"),
+                                    .get("id"),
                             courseFilters.modelingProductId())
+            );
+        }
+
+        if (courseFilters.paintId() != null) {
+            predicates.add(
+                    criteriaBuilder.equal(
+                            root.join("steps")
+                                    .joinMap("usedPaints")
+                                    .key(),
+                            new PaintEntity(courseFilters.paintId(), null, null, null)
+                    )
             );
         }
 

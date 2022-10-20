@@ -1,6 +1,6 @@
 package courses.paint.mini.dto.product;
 
-import courses.paint.mini.constraint.PaintType;
+import courses.paint.mini.enums.PaintType;
 import courses.paint.mini.dto.ProducerDto;
 import lombok.*;
 
