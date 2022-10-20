@@ -1,6 +1,6 @@
 package courses.paint.mini.model.game;
 
-import courses.paint.mini.constraint.GameType;
+import courses.paint.mini.enums.GameType;
 import courses.paint.mini.model.Producer;
 import lombok.*;
 

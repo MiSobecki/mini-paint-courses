@@ -15,6 +15,7 @@ public class Course {
 
     private String id;
     private String title;
+    private String shortDescription;
     private Set<CourseStep> steps;
     private Miniature miniature;
     private User user;

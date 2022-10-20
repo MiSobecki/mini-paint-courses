@@ -1,6 +1,6 @@
 package courses.paint.mini.exception;
 
-import courses.paint.mini.constraint.ExceptionType;
+import courses.paint.mini.enums.ExceptionType;
 import lombok.Getter;
 
 @Getter

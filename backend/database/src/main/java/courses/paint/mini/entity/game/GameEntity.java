@@ -1,6 +1,6 @@
 package courses.paint.mini.entity.game;
 
-import courses.paint.mini.constraint.GameType;
+import courses.paint.mini.enums.GameType;
 import courses.paint.mini.entity.ProducerEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

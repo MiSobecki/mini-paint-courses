@@ -5,8 +5,6 @@ import courses.paint.mini.model.course.Course;
 import courses.paint.mini.model.course.CourseStep;
 import courses.paint.mini.model.game.Miniature;
 import courses.paint.mini.port.CommandCoursePort;
-import courses.paint.mini.port.RequestCoursePort;
-import courses.paint.mini.usecase.course.UpdateCourseUseCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -16,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -37,6 +34,8 @@ public class UpdateCourseUseCaseTest {
     private ArgumentCaptor<String> titleCaptor;
     @Captor
     private ArgumentCaptor<Set<CourseStep>> stepsCaptor;
+    @Captor
+    private ArgumentCaptor<String> descCaptor;
 
     @Test
     public void shouldUpdateCourseCorrectly() {
@@ -45,6 +44,7 @@ public class UpdateCourseUseCaseTest {
         var course = new Course(
                 courseId,
                 "test",
+                "shortDesc",
                 new HashSet<>(),
                 new Miniature(),
                 new User("234",
@@ -60,8 +60,8 @@ public class UpdateCourseUseCaseTest {
         // then
         verify(existingCourse).setTitle(titleCaptor.capture());
         assertEquals(course.getTitle(), titleCaptor.getValue());
-        verify(existingCourse).setSteps(stepsCaptor.capture());
-        assertEquals(course.getSteps(), stepsCaptor.getValue());
+        verify(existingCourse).setShortDescription(descCaptor.capture());
+        assertEquals(course.getShortDescription(), descCaptor.getValue());
 
         verify(existingCourse, never()).setMiniature(any());
         verify(existingCourse, never()).setId(any());

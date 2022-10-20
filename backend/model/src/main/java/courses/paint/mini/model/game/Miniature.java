@@ -1,13 +1,12 @@
 package courses.paint.mini.model.game;
 
-import courses.paint.mini.model.game.Faction;
 import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"id", "name"})
 public class Miniature {
 
     private String id;

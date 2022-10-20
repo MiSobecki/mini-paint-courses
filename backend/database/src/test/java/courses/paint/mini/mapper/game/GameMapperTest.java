@@ -1,6 +1,6 @@
 package courses.paint.mini.mapper.game;
 
-import courses.paint.mini.constraint.GameType;
+import courses.paint.mini.enums.GameType;
 import courses.paint.mini.entity.ProducerEntity;
 import courses.paint.mini.entity.game.FactionEntity;
 import courses.paint.mini.entity.game.GameEntity;

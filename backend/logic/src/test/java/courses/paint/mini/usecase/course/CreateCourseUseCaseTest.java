@@ -34,6 +34,7 @@ public class CreateCourseUseCaseTest {
         var course = new Course(
                 "123",
                 "test",
+                "shortDesc",
                 new HashSet<>(),
                 null,
                 new User("234",

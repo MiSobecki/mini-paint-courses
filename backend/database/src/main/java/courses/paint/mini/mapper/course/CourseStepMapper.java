@@ -9,8 +9,10 @@ import courses.paint.mini.model.course.CourseStep;
 import courses.paint.mini.model.course.PaintingTechnique;
 import courses.paint.mini.model.product.Paint;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.Map;
+import java.util.Set;
 
 @Mapper(componentModel = "spring", uses = {ModelingProductMapper.class, PaintMapper.class, PaintingTechniqueMapper.class})
 public interface CourseStepMapper {
@@ -18,6 +20,10 @@ public interface CourseStepMapper {
     CourseStep toCourseStep(CourseStepEntity courseStepEntity);
 
     CourseStepEntity fromCourseStep(CourseStep courseStep);
+
+    Set<CourseStep> toCourseSteps(Set<CourseStepEntity> courseStepEntities);
+
+    Set<CourseStepEntity> fromCourseSteps(Set<CourseStep> courseSteps);
 
     Map<Paint, PaintingTechnique> toMap(Map<PaintEntity, PaintingTechniqueEntity> entitiesMap);
 

@@ -6,17 +6,21 @@ import courses.paint.mini.model.course.Course;
 import courses.paint.mini.model.course.CourseFilters;
 import courses.paint.mini.port.RequestCoursePort;
 import courses.paint.mini.repository.course.CourseRepository;
+import courses.paint.mini.repository.product.PaintRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Component
 @RequiredArgsConstructor
 public class RequestCourseAdapter implements RequestCoursePort {
 
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
+    private final PaintRepository paintRepository;
 
     @Override
     public Optional<Course> getById(String id) {

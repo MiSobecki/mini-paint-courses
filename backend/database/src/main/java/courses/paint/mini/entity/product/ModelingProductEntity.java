@@ -24,10 +24,10 @@ public class ModelingProductEntity {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 100, nullable = false)
     private String name;
 
-    @Column(length = 20)
+    @Column(length = 50)
     private String category;
 
     @ManyToOne
