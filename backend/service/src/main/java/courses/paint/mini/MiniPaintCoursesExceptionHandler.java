@@ -1,17 +1,24 @@
 package courses.paint.mini;
 
-import courses.paint.mini.dto.ErrorMessageResponse;
+import courses.paint.mini.dto.errorresponse.ErrorMessageResponse;
+import courses.paint.mini.dto.errorresponse.ValidationErrorResponse;
 import courses.paint.mini.enums.ExceptionType;
 import courses.paint.mini.exception.BasicException;
 import courses.paint.mini.exception.course.NonExistingCourseException;
 import courses.paint.mini.exception.course.NonUniqueCourseException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @ControllerAdvice
 public class MiniPaintCoursesExceptionHandler extends ResponseEntityExceptionHandler {
@@ -44,6 +51,26 @@ public class MiniPaintCoursesExceptionHandler extends ResponseEntityExceptionHan
                         ex.getExceptionType(),
                         LocalDateTime.now()),
                 HttpStatus.CONFLICT);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatus status,
+                                                                  WebRequest request) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            var fieldName = ((FieldError) error).getField();
+            var errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+
+        return new ResponseEntity<>(
+                new ValidationErrorResponse(
+                        errors,
+                        ExceptionType.INVALID,
+                        LocalDateTime.now()),
+                HttpStatus.BAD_REQUEST);
     }
 
 }
