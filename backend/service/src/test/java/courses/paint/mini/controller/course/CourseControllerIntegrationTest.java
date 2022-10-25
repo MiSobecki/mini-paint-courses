@@ -23,6 +23,7 @@ import courses.paint.mini.repository.game.GameRepository;
 import courses.paint.mini.repository.game.MiniatureRepository;
 import courses.paint.mini.repository.product.ModelingProductRepository;
 import courses.paint.mini.repository.product.PaintRepository;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -96,6 +97,8 @@ public class CourseControllerIntegrationTest {
                 ]
             }
             """;
+
+    private final static String EMPTY_BODY = "{}";
 
     @Autowired
     private MockMvc mockMvc;
@@ -252,6 +255,23 @@ public class CourseControllerIntegrationTest {
     }
 
     @Test
+    public void shouldReturnValidationErrorResponseWhileGivenPostBodyIsEmpty() throws Exception {
+        // when
+        var result = mockMvc.perform(post("/api/courses")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(EMPTY_BODY));
+
+        // then
+        result.andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("errors").isMap())
+                .andExpect(jsonPath("errors", Matchers.hasEntry("title", "Course title is mandatory")))
+                .andExpect(jsonPath("errors", Matchers.hasEntry("miniature", "Miniature is mandatory")))
+                .andExpect(jsonPath("errors", Matchers.hasEntry("user", "User is mandatory")))
+                .andExpect(jsonPath("errors", Matchers.hasEntry("steps", "Course should has at least 1 step")));
+    }
+
+    @Test
     public void shouldGetCourseByIdCorrectly() throws Exception {
         // given
         var step = new CourseStepEntity(
@@ -389,6 +409,21 @@ public class CourseControllerIntegrationTest {
         result.andExpect(status().isNotFound())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("errorMessage").value("Course of id: '64565L' does not exist"));
+    }
+
+    @Test
+    public void shouldReturnValidationErrorResponseWhileGivenPatchBodyIsEmpty() throws Exception {
+        // when
+        var result = mockMvc.perform(patch("/api/courses/654gg")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(EMPTY_BODY));
+
+        // then
+        result.andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("errors").isMap())
+                .andExpect(jsonPath("errors", Matchers.hasEntry("title", "Course title is mandatory")))
+                .andExpect(jsonPath("errors", Matchers.hasEntry("steps", "Course should has at least 1 step")));
     }
 
     @Test

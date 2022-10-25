@@ -4,6 +4,7 @@ public enum ExceptionType {
 
     UNKNOWN,
     NOT_UNIQUE,
-    NOT_EXIST
+    NOT_EXIST,
+    INVALID
 
 }
