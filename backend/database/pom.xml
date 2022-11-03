@@ -15,6 +15,10 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+
+        <flyway.user>sa</flyway.user>
+        <flyway.password>password</flyway.password>
+        <flyway.schemas>PUBLIC</flyway.schemas>
     </properties>
 
     <dependencies>
@@ -42,6 +46,11 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
     </dependencies>
+
 
 </project>
