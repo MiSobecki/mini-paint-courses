@@ -9,35 +9,28 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "role")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserEntity {
+public class RoleEntity {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @Column(length = 20, nullable = false)
-    private String username;
-
-    @Column(length = 100, nullable = false)
-    private String password;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<RoleEntity> roles;
+    @Column(length = 30, nullable = false)
+    private String name;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        UserEntity that = (UserEntity) o;
+        RoleEntity that = (RoleEntity) o;
         return id != null && Objects.equals(id, that.id);
     }
 

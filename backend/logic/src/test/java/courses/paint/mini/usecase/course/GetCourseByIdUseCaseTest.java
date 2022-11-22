@@ -1,8 +1,7 @@
 package courses.paint.mini.usecase.course;
 
-import courses.paint.mini.exception.course.NonExistingCourseException;
+import courses.paint.mini.exception.course.NotFoundCourseException;
 import courses.paint.mini.port.RequestCoursePort;
-import courses.paint.mini.usecase.course.GetCourseByIdUseCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -22,7 +21,7 @@ public class GetCourseByIdUseCaseTest {
     @InjectMocks
     private GetCourseByIdUseCase getCourseByIdUseCase;
 
-    @Test(expected = NonExistingCourseException.class)
+    @Test(expected = NotFoundCourseException.class)
     public void shouldThrowNonExistingCourseExceptionWhileCourseOfGivenIdDoesNotExist() {
         // given
         var courseId = "123";

@@ -95,7 +95,7 @@ CREATE TABLE users
 (
     id       VARCHAR(255) NOT NULL,
     username VARCHAR(20)  NOT NULL,
-    password VARCHAR(20)  NOT NULL,
+    password VARCHAR(100)  NOT NULL,
     CONSTRAINT pk_users PRIMARY KEY (id)
 );
 

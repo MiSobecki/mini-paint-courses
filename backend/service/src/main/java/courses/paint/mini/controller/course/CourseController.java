@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,6 +29,7 @@ public class CourseController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public CourseDto create(@RequestBody @Valid CourseDto courseDto) {
         var course = courseMapper.toCourse(courseDto);
         course = createCourseUseCase.execute(course);
@@ -51,6 +53,7 @@ public class CourseController {
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public CourseDto update(@PathVariable String id,
                             @RequestBody @Valid CourseUpdateDto courseUpdateDto) {
         var course = courseMapper.fromCourseUpdateDto(courseUpdateDto);
@@ -60,6 +63,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
         deleteCourseUseCase.execute(id);

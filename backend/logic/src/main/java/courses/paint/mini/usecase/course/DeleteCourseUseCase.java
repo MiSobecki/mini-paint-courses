@@ -1,8 +1,6 @@
 package courses.paint.mini.usecase.course;
 
-import courses.paint.mini.exception.course.NonExistingCourseException;
 import courses.paint.mini.port.CommandCoursePort;
-import courses.paint.mini.port.RequestCoursePort;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

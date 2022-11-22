@@ -1,6 +1,6 @@
 package courses.paint.mini.dto.course;
 
-import courses.paint.mini.dto.UserDto;
+import courses.paint.mini.dto.user.UserDto;
 import courses.paint.mini.dto.game.CourseMiniatureDto;
 import lombok.*;
 

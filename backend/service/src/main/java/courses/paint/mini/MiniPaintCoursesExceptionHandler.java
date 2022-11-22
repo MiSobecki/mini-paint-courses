@@ -4,8 +4,9 @@ import courses.paint.mini.dto.errorresponse.ErrorMessageResponse;
 import courses.paint.mini.dto.errorresponse.ValidationErrorResponse;
 import courses.paint.mini.enums.ExceptionType;
 import courses.paint.mini.exception.BasicException;
-import courses.paint.mini.exception.course.NonExistingCourseException;
 import courses.paint.mini.exception.course.NonUniqueCourseException;
+import courses.paint.mini.exception.course.NotFoundCourseException;
+import courses.paint.mini.exception.user.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ import java.util.Map;
 @ControllerAdvice
 public class MiniPaintCoursesExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = {BasicException.class})
+    @ExceptionHandler(value = {BasicException.class, Exception.class})
     protected ResponseEntity<ErrorMessageResponse> handleException(Exception ex) {
         return new ResponseEntity<>(
                 new ErrorMessageResponse(
@@ -33,7 +34,11 @@ public class MiniPaintCoursesExceptionHandler extends ResponseEntityExceptionHan
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(value = NonExistingCourseException.class)
+    @ExceptionHandler(value = {
+            NotFoundCourseException.class,
+            NotFoundUserException.class,
+            NotFoundRoleException.class,
+            NotFoundRoleByIdException.class})
     protected ResponseEntity<ErrorMessageResponse> handleNonExistingException(BasicException ex) {
         return new ResponseEntity<>(
                 new ErrorMessageResponse(
@@ -43,7 +48,7 @@ public class MiniPaintCoursesExceptionHandler extends ResponseEntityExceptionHan
                 HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = NonUniqueCourseException.class)
+    @ExceptionHandler(value = {NonUniqueCourseException.class, NonUniqueRoleException.class, NonUniqueUserException.class})
     protected ResponseEntity<ErrorMessageResponse> handleNonUniqueException(BasicException ex) {
         return new ResponseEntity<>(
                 new ErrorMessageResponse(
