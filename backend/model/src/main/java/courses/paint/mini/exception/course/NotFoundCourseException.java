@@ -5,12 +5,12 @@ import courses.paint.mini.exception.BasicException;
 import lombok.Getter;
 
 @Getter
-public class NonExistingCourseException extends BasicException {
+public class NotFoundCourseException extends BasicException {
 
     private final ExceptionType exceptionType;
 
-    public NonExistingCourseException(String courseId) {
+    public NotFoundCourseException(String courseId) {
         super("Course of id: '" + courseId + "' does not exist");
-        exceptionType = ExceptionType.NOT_EXIST;
+        exceptionType = ExceptionType.NOT_FOUND;
     }
 }

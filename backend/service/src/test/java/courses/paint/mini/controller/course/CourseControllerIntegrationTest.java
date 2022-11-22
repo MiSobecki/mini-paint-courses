@@ -14,7 +14,6 @@ import courses.paint.mini.entity.product.PaintEntity;
 import courses.paint.mini.enums.GameType;
 import courses.paint.mini.enums.PaintType;
 import courses.paint.mini.repository.ProducerRepository;
-import courses.paint.mini.repository.UserRepository;
 import courses.paint.mini.repository.course.CourseRepository;
 import courses.paint.mini.repository.course.CourseStepRepository;
 import courses.paint.mini.repository.course.PaintingTechniqueRepository;
@@ -23,6 +22,7 @@ import courses.paint.mini.repository.game.GameRepository;
 import courses.paint.mini.repository.game.MiniatureRepository;
 import courses.paint.mini.repository.product.ModelingProductRepository;
 import courses.paint.mini.repository.product.PaintRepository;
+import courses.paint.mini.user.UserRepository;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +42,7 @@ import java.util.Set;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -133,7 +134,7 @@ public class CourseControllerIntegrationTest {
 
     @Before
     public void init() {
-        userEntity = new UserEntity(null, "ms", "passwd");
+        userEntity = new UserEntity(null, "ms", "passwd", new HashSet<>());
         userEntity = userRepository.save(userEntity);
 
         producerEntity = new ProducerEntity(null, "GW");
@@ -178,6 +179,7 @@ public class CourseControllerIntegrationTest {
 
         // when
         var result = mockMvc.perform(post("/api/courses")
+                .with(httpBasic("Admin", "Passwd"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(String.format(COURSE_CREATE_BODY,
                         miniatureEntity.getId(),
@@ -234,6 +236,7 @@ public class CourseControllerIntegrationTest {
 
         // when
         var result = mockMvc.perform(post("/api/courses")
+                .with(httpBasic("Admin", "Passwd"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(String.format(COURSE_CREATE_BODY,
                         miniatureEntity.getId(),
@@ -256,6 +259,7 @@ public class CourseControllerIntegrationTest {
     public void shouldReturnValidationErrorResponseWhileGivenPostBodyIsEmpty() throws Exception {
         // when
         var result = mockMvc.perform(post("/api/courses")
+                .with(httpBasic("Admin", "Passwd"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(EMPTY_BODY));
 
@@ -294,7 +298,8 @@ public class CourseControllerIntegrationTest {
         courseEntity = courseRepository.save(courseEntity);
 
         // when
-        var result = mockMvc.perform(get("/api/courses/" + courseEntity.getId()));
+        var result = mockMvc.perform(get("/api/courses/" + courseEntity.getId())
+                .with(httpBasic("Admin", "Passwd")));
 
         // then
         result.andExpect(status().isOk())
@@ -314,7 +319,8 @@ public class CourseControllerIntegrationTest {
     @Test
     public void shouldReturnNotFoundResponseWhileCourseOfGivenIdToGetDoesNotExist() throws Exception {
         // when
-        var result = mockMvc.perform(get("/api/courses/765A"));
+        var result = mockMvc.perform(get("/api/courses/765A")
+                .with(httpBasic("Admin", "Passwd")));
 
         // then
         result.andExpect(status().isNotFound())
@@ -329,6 +335,7 @@ public class CourseControllerIntegrationTest {
 
         // when
         var result = mockMvc.perform(get("/api/courses")
+                .with(httpBasic("Admin", "Passwd"))
                 .param("page", "0")
                 .param("size", "10")
                 .param("paintId", paintEntity.getId())
@@ -372,6 +379,7 @@ public class CourseControllerIntegrationTest {
 
         // when
         var result = mockMvc.perform(patch("/api/courses/" + courseEntity.getId())
+                .with(httpBasic("Admin", "Passwd"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(String.format(COURSE_UPDATE_BODY,
                         paintEntity.getId(),
@@ -397,6 +405,7 @@ public class CourseControllerIntegrationTest {
     public void shouldReturnNotFoundResponseWhileCourseOfGivenIdToUpdateDoesNotExist() throws Exception {
         // when
         var result = mockMvc.perform(patch("/api/courses/64565L")
+                .with(httpBasic("Admin", "Passwd"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(String.format(COURSE_UPDATE_BODY,
                         paintEntity.getId(),
@@ -413,6 +422,7 @@ public class CourseControllerIntegrationTest {
     public void shouldReturnValidationErrorResponseWhileGivenPatchBodyIsEmpty() throws Exception {
         // when
         var result = mockMvc.perform(patch("/api/courses/654gg")
+                .with(httpBasic("Admin", "Passwd"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(EMPTY_BODY));
 
@@ -437,7 +447,8 @@ public class CourseControllerIntegrationTest {
         courseEntity = courseRepository.save(courseEntity);
 
         // when
-        var result = mockMvc.perform(delete("/api/courses/" + courseEntity.getId()));
+        var result = mockMvc.perform(delete("/api/courses/" + courseEntity.getId())
+                .with(httpBasic("Admin", "Passwd")));
 
         // then
         result.andExpect(status().isNoContent());
@@ -446,7 +457,8 @@ public class CourseControllerIntegrationTest {
     @Test
     public void shouldReturnNotFoundResponseWhileCourseOfGivenIdToDeleteDoesNotExist() throws Exception {
         // when
-        var result = mockMvc.perform(delete("/api/courses/5654GF"));
+        var result = mockMvc.perform(delete("/api/courses/5654GF")
+                .with(httpBasic("Admin", "Passwd")));
 
         // then
         result.andExpect(status().isNotFound())
@@ -461,7 +473,7 @@ public class CourseControllerIntegrationTest {
         var grainModelingProduct = new ModelingProductEntity(null, "grain", "base", armyPainterProducer);
         grainModelingProduct = modelingProductRepository.save(grainModelingProduct);
 
-        var otherUser = new UserEntity(null, "blodig", "testpass");
+        var otherUser = new UserEntity(null, "blodig", "testpass", new HashSet<>());
         otherUser = userRepository.save(otherUser);
 
         var elvesMiniature = new MiniatureEntity(null, "Elves lord", "hero", null);
@@ -502,7 +514,6 @@ public class CourseControllerIntegrationTest {
                 new CourseEntity(null, "secondCourse", "desc", new HashSet<>(), elvesMiniature, otherUser),
                 thirdCourse,
                 new CourseEntity(null, "fourthCourse", "desc", new HashSet<>(), elvesMiniature, userEntity)
-
         );
     }
 

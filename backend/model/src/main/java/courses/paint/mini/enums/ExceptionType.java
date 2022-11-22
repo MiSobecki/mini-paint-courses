@@ -2,9 +2,10 @@ package courses.paint.mini.enums;
 
 public enum ExceptionType {
 
-    UNKNOWN,
+    INVALID,
+    NOT_FOUND,
     NOT_UNIQUE,
-    NOT_EXIST,
-    INVALID
+    UNKNOWN
+
 
 }

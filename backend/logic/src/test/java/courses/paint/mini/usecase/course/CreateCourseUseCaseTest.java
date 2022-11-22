@@ -5,7 +5,6 @@ import courses.paint.mini.model.User;
 import courses.paint.mini.model.course.Course;
 import courses.paint.mini.port.CommandCoursePort;
 import courses.paint.mini.port.RequestCoursePort;
-import courses.paint.mini.usecase.course.CreateCourseUseCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -39,7 +38,8 @@ public class CreateCourseUseCaseTest {
                 null,
                 new User("234",
                         "testUser",
-                        "pass"));
+                        "pass",
+                        new HashSet<>()));
 
         doReturn(Optional.of(course)).when(requestCoursePort).getByTitleAndUserId(
                 course.getTitle(),

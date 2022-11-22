@@ -1,4 +1,4 @@
-package courses.paint.mini.dto;
+package courses.paint.mini.dto.user;
 
 import lombok.*;
 

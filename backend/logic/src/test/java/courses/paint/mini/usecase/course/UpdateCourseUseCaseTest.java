@@ -2,7 +2,6 @@ package courses.paint.mini.usecase.course;
 
 import courses.paint.mini.model.User;
 import courses.paint.mini.model.course.Course;
-import courses.paint.mini.model.course.CourseStep;
 import courses.paint.mini.model.game.Miniature;
 import courses.paint.mini.port.CommandCoursePort;
 import org.junit.Test;
@@ -14,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -33,8 +31,6 @@ public class UpdateCourseUseCaseTest {
     @Captor
     private ArgumentCaptor<String> titleCaptor;
     @Captor
-    private ArgumentCaptor<Set<CourseStep>> stepsCaptor;
-    @Captor
     private ArgumentCaptor<String> descCaptor;
 
     @Test
@@ -49,7 +45,8 @@ public class UpdateCourseUseCaseTest {
                 new Miniature(),
                 new User("234",
                         "testUser",
-                        "pass"));
+                        "pass",
+                        new HashSet<>()));
 
         var existingCourse = mock(Course.class);
         doReturn(existingCourse).when(getCourseByIdUseCase).execute(courseId);

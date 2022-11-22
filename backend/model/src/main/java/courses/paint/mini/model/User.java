@@ -2,6 +2,8 @@ package courses.paint.mini.model;
 
 import lombok.*;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -12,5 +14,6 @@ public class User {
     private String id;
     private String username;
     private String password;
+    private Set<Role> roles;
 
 }
