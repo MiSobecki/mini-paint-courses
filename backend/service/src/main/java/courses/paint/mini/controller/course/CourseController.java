@@ -9,6 +9,7 @@ import courses.paint.mini.usecase.course.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +47,11 @@ public class CourseController {
 
     @GetMapping
     public Page<CourseShortInfoDto> getAllFiltered(CourseFilters courseFilters,
-                                                   Pageable pageable) {
+                                                   @PageableDefault Pageable pageable) {
+        if (courseFilters == null) {
+            courseFilters = createEmptyFilters();
+        }
+
         var coursesFiltered = getAllCoursesFilteredUseCase.execute(courseFilters, pageable);
 
         return coursesFiltered.map(courseMapper::shortInfoFromCourse);
@@ -67,6 +72,18 @@ public class CourseController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
         deleteCourseUseCase.execute(id);
+    }
+
+    private CourseFilters createEmptyFilters() {
+        return new CourseFilters(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
     }
 
 }
