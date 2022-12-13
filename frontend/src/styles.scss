@@ -1,4 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.course-card {
+  flex: 0 1 calc(25% - 1em);
+
+  margin: 10px;
+
+  max-height: 200px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  > .mat-card-title-group {
+    display: block;
+  }
+
+  > .mat-card-content {
+    overflow-y: auto;
+  }
+
+  .card-buttons {
+    justify-content: center;
+  }
+}
+
+.cards-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
