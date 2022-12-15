@@ -16,6 +16,7 @@ import {MatCardModule} from "@angular/material/card";
 import {HttpClientModule} from '@angular/common/http';
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     MatCardModule,
     HttpClientModule,
     MatGridListModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

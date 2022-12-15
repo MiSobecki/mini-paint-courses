@@ -1,12 +1,11 @@
-<div class="cards-list">
-  <div *ngFor="let course of (courses | async)">
-    <app-homepage-course-short-info [course]="course"></app-homepage-course-short-info>
+<div class="homepage">
+    <div class="cards-list">
+      <div *ngFor="let course of (courses | async)">
+        <app-homepage-course-short-info [course]="course"></app-homepage-course-short-info>
+      </div>
+    </div>
+  <div class="pagination">
+    <ngb-pagination [collectionSize]="totalElements" [(page)]="pageNumber" [pageSize]="pageSize"
+                    aria-label="Default pagination"></ngb-pagination>
   </div>
 </div>
-<mat-paginator [length]="100"
-               [pageSize]="10"
-               [pageSizeOptions]="[5, 10, 25, 100]"
-               [hidePageSize]="true"
-               [showFirstLastButtons]="true"
-               aria-label="Select page">
-</mat-paginator>

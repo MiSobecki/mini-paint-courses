@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, Subscription, tap} from "rxjs";
 import {CourseShortInfo} from "../model/course-short-info";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 
 @Injectable({
@@ -15,18 +15,25 @@ export class CourseService {
   coursesShortInfo$: Observable<CourseShortInfo[]> = this._coursesShortInfo.asObservable();
   private coursesShortInfoSub: Subscription | undefined;
 
-  totalPages = 0;
+  totalElements = 0;
+  currentPage = 1;
+  pageSize = 10;
 
   constructor(private httpClient: HttpClient) {
   }
 
-  findAll(): void {
-    this.coursesShortInfoSub = this.httpClient.get(environment.apiUrl + this.ROOT_URL).pipe(
+  findAll(pageNumber: number): void {
+    let params = new HttpParams();
+    params = params.append('page', pageNumber - 1);
+    params = params.append('size', this.pageSize);
+
+    this.coursesShortInfoSub = this.httpClient.get(environment.apiUrl + this.ROOT_URL, {params: params}).pipe(
       tap((response: any) => {
+        this.totalElements = response.totalElements;
+        this.currentPage = response.pageable.pageNumber + 1;
+
         const courses = response.content as CourseShortInfo[];
         this._coursesShortInfo.next(courses);
-
-        this.totalPages = response.totalPages;
       })
     ).subscribe();
   }

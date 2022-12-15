@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
 html, body {
   height: 100%;
 }
@@ -15,17 +18,7 @@ body {
   margin: 10px;
 
   max-height: 200px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-
-  > .mat-card-title-group {
-    display: block;
-  }
-
-  > .mat-card-content {
-    overflow-y: auto;
-  }
+  max-width: 500px;
 
   .card-buttons {
     justify-content: center;
@@ -36,4 +29,15 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+
+  overflow-y: auto;
+}
+
+.pagination {
+  justify-content: center;
+
+  margin-top: auto;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
