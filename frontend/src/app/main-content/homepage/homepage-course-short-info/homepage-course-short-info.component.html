@@ -1,0 +1,17 @@
+<mat-card class="course-card scrollable-content">
+  <mat-card-header>
+    <mat-card-title-group>
+      <mat-card-title class="title">{{course.title}}</mat-card-title>
+      <mat-card-subtitle>{{course.miniatureName}}</mat-card-subtitle>
+      <div class="username">
+        <span>{{course.username}}</span>
+      </div>
+    </mat-card-title-group>
+  </mat-card-header>
+  <mat-card-content [style.overflow]="'auto'" [style.height.px]="'300'">
+    {{course.shortDescription}}
+  </mat-card-content>
+  <mat-card-actions class="card-buttons">
+    <button mat-button (click)="openCourse()"><b>Open Course</b></button>
+  </mat-card-actions>
+</mat-card>

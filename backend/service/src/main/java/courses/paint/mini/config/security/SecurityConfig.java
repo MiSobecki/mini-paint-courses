@@ -17,9 +17,12 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/api/users").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/courses").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
+                .and()
+                .cors()
                 .and()
                 .build();
     }
