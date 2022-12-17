@@ -22,10 +22,15 @@ export class CourseService {
   constructor(private httpClient: HttpClient) {
   }
 
-  findAll(pageNumber: number): void {
+  findAll(pageNumber: number,
+          username: string | undefined): void {
     let params = new HttpParams();
     params = params.append('page', pageNumber - 1);
     params = params.append('size', this.pageSize);
+
+    if (username) {
+      params = params.append('username', username);
+    }
 
     this.coursesShortInfoSub = this.httpClient.get(environment.apiUrl + this.ROOT_URL, {params: params}).pipe(
       tap((response: any) => {

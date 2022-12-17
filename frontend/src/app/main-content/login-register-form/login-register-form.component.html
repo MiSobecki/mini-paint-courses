@@ -1,0 +1,30 @@
+<mat-card>
+  <mat-card-content>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+      <h2>{{getHeader()}}</h2>
+      <mat-error *ngIf="!loginValid && !isOnRegister">
+        The username and password were not recognized
+      </mat-error>
+      <mat-error *ngIf="!loginValid && isOnRegister">
+        There exists already user with given username
+      </mat-error>
+      <mat-form-field>
+        <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
+        <mat-error>
+          Please provide a valid username
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
+        <mat-error>
+          Please provide a valid password
+        </mat-error>
+      </mat-form-field>
+      <div class="submit-section">
+        <button mat-raised-button class="submit-button" color="primary"
+                [disabled]="!loginForm.form.valid">{{getSubmitButtonText()}}</button>
+        <a class="register-button" (click)="changeFormMode()">{{registerButtonText}}</a>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

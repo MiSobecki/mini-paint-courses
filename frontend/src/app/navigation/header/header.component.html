@@ -1,3 +1,24 @@
 <mat-toolbar color="primary">
-  <button mat-button color="primary" class="header-button" *ngIf="isPageSelected('/homepage')">Homepage</button>
+  <div id="container">
+    <div id="left">
+      <button mat-button color="primary" class="header-button"
+              (click)="openHomepage()"
+              [ngClass]="isPageSelected('/homepage') ? 'selected-page' : ''">Homepage
+      </button>
+      <button mat-button color="primary" class="header-button"
+              (click)="openUserCourses()" *ngIf="isAuthenticated"
+              [ngClass]="isPageSelected('/user-courses') ? 'selected-page' : ''">User Courses
+      </button>
+    </div>
+    <div id="right">
+      <button mat-button color="primary" class="header-button" *ngIf="!isAuthenticated"
+              (click)="openLogin()"
+              [ngClass]="isPageSelected('/login') ? 'selected-page' : ''">Login
+      </button>
+      <span *ngIf="isAuthenticated" class="username">{{username}}</span>
+      <button mat-button color="primary" class="header-button" *ngIf="isAuthenticated"
+              (click)="logout()">Logout
+      </button>
+    </div>
+  </div>
 </mat-toolbar>

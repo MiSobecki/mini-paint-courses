@@ -1,0 +1,11 @@
+<div class="user-courses">
+  <div class="cards-list">
+    <div *ngFor="let course of (courses | async)">
+      <app-user-course-short-info [course]="course"></app-user-course-short-info>
+    </div>
+  </div>
+  <div class="pagination">
+    <ngb-pagination [collectionSize]="totalElements" [(page)]="pageNumber" [pageSize]="pageSize"
+                    aria-label="Default pagination"></ngb-pagination>
+  </div>
+</div>

@@ -2,13 +2,14 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, of, Subscription} from "rxjs";
 import {CourseShortInfo} from "../../../shared/model/course-short-info";
 import {CourseService} from "../../../shared/service/course.service";
+import {AuthService} from "../../../shared/service/auth.service";
 
 @Component({
-  selector: 'app-homepage',
-  templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.scss']
+  selector: 'app-user-courses',
+  templateUrl: './user-courses.component.html',
+  styleUrls: ['./user-courses.component.scss']
 })
-export class HomepageComponent implements OnInit, OnDestroy {
+export class UserCoursesComponent implements OnInit, OnDestroy {
 
   courses: Observable<CourseShortInfo[]> = of([]);
 
@@ -18,7 +19,8 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   coursesSub: Subscription | undefined;
 
-  constructor(private courseService: CourseService) {
+  constructor(private courseService: CourseService,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -30,7 +32,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
       this.pageSize = this.courseService.pageSize;
     })
 
-    this.courseService.findAll(this.pageNumber, undefined);
+    this.courseService.findAll(this.pageNumber, this.authService.getUsername());
   }
 
   ngOnDestroy() {

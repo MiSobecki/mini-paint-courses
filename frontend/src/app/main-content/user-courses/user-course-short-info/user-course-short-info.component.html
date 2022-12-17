@@ -12,6 +12,8 @@
     {{course.shortDescription}}
   </mat-card-content>
   <mat-card-actions class="card-buttons">
-    <button mat-button color="primary" (click)="openCourse()"><b>Open Course</b></button>
+    <button mat-button color="primary" class="action-button" (click)="openCourse()"><b>Open</b></button>
+    <button mat-button color="primary" class="action-button" (click)="updateCourse()"><b>Update</b></button>
+    <button mat-button color="primary" class="action-button" (click)="deleteCourse()"><b>Delete</b></button>
   </mat-card-actions>
 </mat-card>
