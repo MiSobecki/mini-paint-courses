@@ -8,4 +8,27 @@
   background-color:#1f285a;
 }
 
+#left {
+  float: left;
+
+  > button {
+    margin-right: 10px;
+  }
+}
+
+#right {
+  float: right;
+
+  justify-content: center;
+}
+
+#container {
+  width: 100%;
+  text-align: center;
+}
+
+.username {
+  padding-right: 20px;
+}
+
 

@@ -17,27 +17,39 @@ import {HttpClientModule} from '@angular/common/http';
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoginRegisterFormComponent } from './main-content/login-register-form/login-register-form.component';
+import {FormsModule} from "@angular/forms";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import { UserCoursesComponent } from './main-content/user-courses/user-courses.component';
+import { UserCourseShortInfoComponent } from './main-content/user-courses/user-course-short-info/user-course-short-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     HomepageComponent,
-    HomepageCourseShortInfoComponent
+    HomepageCourseShortInfoComponent,
+    LoginRegisterFormComponent,
+    UserCoursesComponent,
+    UserCourseShortInfoComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatCardModule,
-    HttpClientModule,
-    MatGridListModule,
-    MatPaginatorModule,
-    NgbModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatCardModule,
+        HttpClientModule,
+        MatGridListModule,
+        MatPaginatorModule,
+        NgbModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
