@@ -58,6 +58,18 @@ export class AuthService {
     return '';
   }
 
+  getCredentials(): Credentials | undefined {
+    let credentials: Credentials | undefined;
+
+    const storedCredentials = sessionStorage.getItem(this.CREDENTIALS_STORAGE);
+
+    if (storedCredentials) {
+      credentials = JSON.parse(storedCredentials);
+    }
+
+    return credentials;
+  }
+
   private sendLoginRequest(username: string,
                            password: string): Promise<boolean | void> {
     const httpOptions = {

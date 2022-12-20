@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, Subscription, tap} from "rxjs";
+import {BehaviorSubject, catchError, Observable, Subscription, tap} from "rxjs";
 import {CourseShortInfo} from "../model/course-short-info";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class CourseService {
   currentPage = 1;
   pageSize = 10;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private authService: AuthService) {
   }
 
   findAll(pageNumber: number,
@@ -41,6 +43,34 @@ export class CourseService {
         this._coursesShortInfo.next(courses);
       })
     ).subscribe();
+  }
+
+  delete(id: string): void {
+    const credentials = this.authService.getCredentials();
+
+    if (credentials) {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + btoa(credentials.username + ':' + credentials.password)
+        })
+      };
+
+      this.httpClient.delete(environment.apiUrl + this.ROOT_URL + '/' + id, httpOptions).pipe(
+        tap(() => {
+          let courses = this._coursesShortInfo.getValue();
+
+          courses = courses.filter(x => x.id !== id);
+
+          this._coursesShortInfo.next(courses);
+        }),
+        catchError((error) => {
+          console.log(error);
+
+          return error;
+        })
+      ).subscribe();
+    }
   }
 
   unsubscribeCoursesShortInfo(): void {

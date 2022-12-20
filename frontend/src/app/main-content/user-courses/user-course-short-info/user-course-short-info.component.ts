@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {CourseShortInfo} from "../../../../shared/model/course-short-info";
+import {CourseService} from "../../../../shared/service/course.service";
 
 @Component({
   selector: 'app-user-course-short-info',
@@ -9,6 +10,9 @@ import {CourseShortInfo} from "../../../../shared/model/course-short-info";
 export class UserCourseShortInfoComponent {
 
   @Input() course: CourseShortInfo = new CourseShortInfo();
+
+  constructor(private courseService: CourseService) {
+  }
 
   openCourse(): void {
     // TODO
@@ -21,8 +25,7 @@ export class UserCourseShortInfoComponent {
   }
 
   deleteCourse(): void {
-    // TODO
-    console.log('Delete Course');
+    this.courseService.delete(this.course.id);
   }
 
 }
