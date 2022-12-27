@@ -1,4 +1,4 @@
-package courses.paint.mini.config.course;
+package courses.paint.mini.config;
 
 import courses.paint.mini.port.CommandCoursePort;
 import courses.paint.mini.port.RequestCoursePort;

@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, catchError, Observable, Subscription, tap} from "rxjs";
+import {BehaviorSubject, catchError, firstValueFrom, map, Observable, Subscription, tap} from "rxjs";
 import {CourseShortInfo} from "../model/course-short-info";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {AuthService} from "./auth.service";
+import {Course} from "../model/course";
+import {CourseStep} from "../model/course-step";
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +47,16 @@ export class CourseService {
     ).subscribe();
   }
 
+  find(id: string): Promise<Course> {
+    return firstValueFrom(this.httpClient.get<Course>(environment.apiUrl + this.ROOT_URL + '/' + id)
+      .pipe(
+        map(course => {
+          course.steps = course.steps.map(step => this.convertPaintsMap(step));
+          return course;
+        })
+      ));
+  }
+
   delete(id: string): void {
     const credentials = this.authService.getCredentials();
 
@@ -76,4 +88,18 @@ export class CourseService {
   unsubscribeCoursesShortInfo(): void {
     this.coursesShortInfoSub?.unsubscribe();
   }
+
+  private convertPaintsMap(courseStep: CourseStep): CourseStep {
+    const paints = courseStep.paintTechniqueIdToPaintIdMap as unknown as { [name: string]: string };
+
+    const newPaints: Map<string, string> = new Map<string, string>();
+    Object.keys(paints).forEach(key => {
+      newPaints.set(key, paints[key]);
+    });
+
+    courseStep.paintTechniqueIdToPaintIdMap = newPaints;
+
+    return courseStep;
+  }
+
 }

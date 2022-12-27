@@ -15,7 +15,7 @@ public class MiniatureDtoMapperTest {
     @Test
     public void shouldMapCourseMiniatureDtoToMiniatureCorrectly() {
         // given
-        var courseMiniatureDto = new CourseMiniatureDto("54", "mini", "range", "elves");
+        var courseMiniatureDto = new CourseMiniatureDto("54", "mini", "range", "elves", "wh");
 
         // when
         var result = miniatureDtoMapper.toMiniature(courseMiniatureDto);

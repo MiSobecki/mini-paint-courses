@@ -14,6 +14,7 @@ public interface MiniatureDtoMapper {
     Miniature toMiniature(CourseMiniatureDto courseMiniatureDto);
 
     @Mapping(source = "faction.name", target = "factionName")
+    @Mapping(source = "faction.game.title", target = "gameTitle")
     CourseMiniatureDto fromMiniature(Miniature miniature);
 
     @Named("fromFactionName")

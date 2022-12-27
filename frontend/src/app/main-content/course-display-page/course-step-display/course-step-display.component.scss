@@ -1,0 +1,51 @@
+.course-step {
+  margin: 20px 5%;
+  padding-bottom: 20px;
+  border-style: double;
+
+  .title {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    > span {
+      text-align: center;
+    }
+  }
+
+  .description {
+    padding-top: 20px;
+    padding-left: 10%;
+    padding-right: 10%;
+
+    display: flex;
+    flex-direction: column;
+
+    .label {
+      text-align: center;
+    }
+  }
+
+  .used-products {
+    padding-top: 20px;
+    padding-left: 10%;
+    padding-right: 10%;
+
+    display: flex;
+    flex-direction: column;
+
+    .label {
+      text-align: center;
+    }
+
+    .paint {
+      border-right-style: groove;
+      padding-right: 3px;
+    }
+
+    .technique {
+      padding-left: 3px;
+    }
+  }
+}

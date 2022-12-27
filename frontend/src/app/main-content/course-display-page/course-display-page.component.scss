@@ -1,0 +1,64 @@
+.course-display {
+
+  overflow-y: auto;
+
+  .main-info {
+
+    margin-top: 20px;
+    margin-right: 5%;
+    margin-left: 5%;
+    border-style: double;
+
+    .game-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      padding-top: 20px;
+
+      > h3 {
+        width: 33%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        > span {
+          text-align: center;
+        }
+      }
+    }
+
+    .centered-header {
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      > span {
+        text-align: center;
+      }
+    }
+
+    .short-description {
+      padding-top: 20px;
+      padding-left: 10%;
+      padding-right: 10%;
+
+      display: flex;
+      flex-direction: column;
+
+      .label {
+        text-align: center;
+      }
+    }
+  }
+
+  .steps {
+
+    border-style: double;
+    margin: 20px 5%;
+
+    .steps-title {
+      text-align: center;
+    }
+  }
+}

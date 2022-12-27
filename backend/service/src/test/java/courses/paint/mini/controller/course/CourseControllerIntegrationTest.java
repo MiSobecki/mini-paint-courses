@@ -1,6 +1,7 @@
 package courses.paint.mini.controller.course;
 
 import com.jayway.jsonpath.JsonPath;
+import courses.paint.mini.BasicRolesInitialization;
 import courses.paint.mini.entity.ProducerEntity;
 import courses.paint.mini.entity.UserEntity;
 import courses.paint.mini.entity.course.CourseEntity;
@@ -22,8 +23,10 @@ import courses.paint.mini.repository.game.GameRepository;
 import courses.paint.mini.repository.game.MiniatureRepository;
 import courses.paint.mini.repository.product.ModelingProductRepository;
 import courses.paint.mini.repository.product.PaintRepository;
+import courses.paint.mini.user.RoleRepository;
 import courses.paint.mini.user.UserRepository;
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -122,6 +126,12 @@ public class CourseControllerIntegrationTest {
     private ProducerRepository producerRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private BasicRolesInitialization basicRolesInitialization;
 
     private UserEntity userEntity;
     private ProducerEntity producerEntity;
@@ -134,7 +144,15 @@ public class CourseControllerIntegrationTest {
 
     @Before
     public void init() {
-        userEntity = new UserEntity(null, "ms", "passwd", new HashSet<>());
+        basicRolesInitialization.createBasicRoles();
+
+        var adminRole = roleRepository.findByNameIgnoreCase("ADMIN").get();
+
+        userEntity = new UserEntity(
+                null,
+                "Admin",
+                passwordEncoder.encode("Passwd"),
+                Set.of(adminRole));
         userEntity = userRepository.save(userEntity);
 
         producerEntity = new ProducerEntity(null, "GW");
@@ -161,6 +179,21 @@ public class CourseControllerIntegrationTest {
 
         paintingTechniqueEntity = new PaintingTechniqueEntity(null, "highlight");
         paintingTechniqueEntity = paintingTechniqueRepository.save(paintingTechniqueEntity);
+    }
+
+    @After
+    public void after() {
+        courseStepRepository.deleteAllInBatch();
+        courseRepository.deleteAllInBatch();
+        paintingTechniqueRepository.deleteAllInBatch();
+        miniatureRepository.deleteAllInBatch();
+        factionRepository.deleteAllInBatch();
+        gameRepository.deleteAllInBatch();
+        paintRepository.deleteAllInBatch();
+        modelingProductRepository.deleteAllInBatch();
+        producerRepository.deleteAllInBatch();
+        userRepository.deleteAllInBatch();
+        roleRepository.deleteAllInBatch();
     }
 
     @Test
@@ -312,6 +345,7 @@ public class CourseControllerIntegrationTest {
                 .andExpect(jsonPath("miniature.name").value(courseEntity.getMiniature().getName()))
                 .andExpect(jsonPath("miniature.type").value(courseEntity.getMiniature().getType()))
                 .andExpect(jsonPath("miniature.factionName").value("chaos"))
+                .andExpect(jsonPath("miniature.gameTitle").value("wh40k"))
                 .andExpect(jsonPath("user.id").value(courseEntity.getUser().getId()))
                 .andExpect(jsonPath("user.username").value(courseEntity.getUser().getUsername()));
     }
@@ -386,19 +420,38 @@ public class CourseControllerIntegrationTest {
                         paintingTechniqueEntity.getId(),
                         modelingProductEntity.getId())));
 
+        var resultId = String.valueOf(
+                JsonPath.read(
+                        result.andReturn()
+                                .getResponse()
+                                .getContentAsString(),
+                        "id").toString());
+        var resultStepId = String.valueOf(
+                        JsonPath.read(
+                                result.andReturn()
+                                        .getResponse()
+                                        .getContentAsString(),
+                                "$.steps[:1].id").toString())
+                .replace("[\"", "")
+                .replace("\"]", "");
+
+        var updated = courseRepository.findById(resultId).get();
+        var updatedStep = courseStepRepository.findById(resultStepId).get();
+
         // then
-        result.andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("id").value(courseEntity.getId()))
-                .andExpect(jsonPath("title").value("course for chaos legionaire UPDATED"))
-                .andExpect(jsonPath("shortDescription").value("short desc about course UPDATED"))
-                .andExpect(jsonPath("steps", hasSize(1)))
-                .andExpect(jsonPath("miniature.id").value(courseEntity.getMiniature().getId()))
-                .andExpect(jsonPath("miniature.name").value(courseEntity.getMiniature().getName()))
-                .andExpect(jsonPath("miniature.type").value(courseEntity.getMiniature().getType()))
-                .andExpect(jsonPath("miniature.factionName").value("chaos"))
-                .andExpect(jsonPath("user.id").value(courseEntity.getUser().getId()))
-                .andExpect(jsonPath("user.username").value(courseEntity.getUser().getUsername()));
+        result.andExpect(status().isOk());
+
+        assertEquals("course for chaos legionaire UPDATED", updated.getTitle());
+        assertEquals("short desc about course UPDATED", updated.getShortDescription());
+
+        assertEquals(userEntity, updated.getUser());
+        assertEquals(miniatureEntity, updated.getMiniature());
+
+        assertEquals("lets prime miniature with caledor sky base paint", updatedStep.getDescription());
+        assertEquals("start priming", updatedStep.getTitle());
+        assertEquals(step.getOrderNumber(), updatedStep.getOrderNumber());
+        assertEquals(step.getUsedOtherModelingProducts(), updatedStep.getUsedOtherModelingProducts());
+        assertEquals(step.getUsedPaints(), updatedStep.getUsedPaints());
     }
 
     @Test

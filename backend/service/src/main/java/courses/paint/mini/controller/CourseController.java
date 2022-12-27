@@ -1,4 +1,4 @@
-package courses.paint.mini.controller.course;
+package courses.paint.mini.controller;
 
 import courses.paint.mini.dto.course.CourseDto;
 import courses.paint.mini.dto.course.CourseShortInfoDto;

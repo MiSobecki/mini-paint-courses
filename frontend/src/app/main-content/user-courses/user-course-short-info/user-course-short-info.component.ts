@@ -14,11 +14,6 @@ export class UserCourseShortInfoComponent {
   constructor(private courseService: CourseService) {
   }
 
-  openCourse(): void {
-    // TODO
-    console.log('Open Course');
-  }
-
   updateCourse(): void {
     // TODO
     console.log('Update Course');

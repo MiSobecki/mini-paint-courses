@@ -3,7 +3,6 @@ package courses.paint.mini.dto.game;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -17,5 +16,6 @@ public class CourseMiniatureDto {
     private String name;
     private String type;
     private String factionName;
+    private String gameTitle;
 
 }
