@@ -16,8 +16,12 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/api/users").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/users").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/courses").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/courses/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/paints").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/painting-techniques").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/modeling-products").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()

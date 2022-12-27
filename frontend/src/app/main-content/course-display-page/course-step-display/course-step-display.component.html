@@ -1,0 +1,27 @@
+<div class="course-step">
+  <h3 class="title">
+    <span><b>Title:</b></span>
+    <span>{{courseStep?.title}}</span>
+  </h3>
+  <h4 class="description">
+    <span class="label"><b>Description:</b></span>
+    <p>{{courseStep?.description}}</p>
+  </h4>
+  <h4 class="used-products" *ngIf="courseStep?.paintTechniqueIdToPaintIdMap?.size">
+    <span class="label"><b>Used paints:</b></span>
+    <mat-chip-listbox>
+      <mat-chip *ngFor="let paint of courseStep?.paintTechniqueIdToPaintIdMap | keyvalue">
+        <span class="paint">{{getPaintName(paint.key)}}</span>
+        <span class="technique">{{getPaintingTechniqueName(paint.value)}}</span>
+      </mat-chip>
+    </mat-chip-listbox>
+  </h4>
+  <h4 class="used-products" *ngIf="courseStep?.usedOtherModelingProductIds?.length">
+    <span class="label"><b>Used other modeling products:</b></span>
+    <mat-chip-listbox>
+      <mat-chip *ngFor="let modelingProduct of courseStep?.usedOtherModelingProductIds">
+        <span>{{getModelingProductName(modelingProduct)}}</span>
+      </mat-chip>
+    </mat-chip-listbox>
+  </h4>
+</div>

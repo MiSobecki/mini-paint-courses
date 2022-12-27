@@ -23,6 +23,9 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import { UserCoursesComponent } from './main-content/user-courses/user-courses.component';
 import { UserCourseShortInfoComponent } from './main-content/user-courses/user-course-short-info/user-course-short-info.component';
+import { CourseDisplayPageComponent } from './main-content/course-display-page/course-display-page.component';
+import { CourseStepDisplayComponent } from './main-content/course-display-page/course-step-display/course-step-display.component';
+import {MatChipsModule} from "@angular/material/chips";
 
 @NgModule({
   declarations: [
@@ -32,7 +35,9 @@ import { UserCourseShortInfoComponent } from './main-content/user-courses/user-c
     HomepageCourseShortInfoComponent,
     LoginRegisterFormComponent,
     UserCoursesComponent,
-    UserCourseShortInfoComponent
+    UserCourseShortInfoComponent,
+    CourseDisplayPageComponent,
+    CourseStepDisplayComponent
   ],
     imports: [
         BrowserModule,
@@ -48,7 +53,8 @@ import { UserCourseShortInfoComponent } from './main-content/user-courses/user-c
         NgbModule,
         FormsModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        MatChipsModule
     ],
   providers: [],
   bootstrap: [AppComponent]

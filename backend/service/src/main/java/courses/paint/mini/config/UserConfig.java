@@ -1,4 +1,4 @@
-package courses.paint.mini.config.user;
+package courses.paint.mini.config;
 
 import courses.paint.mini.port.CommandRolePort;
 import courses.paint.mini.port.CommandUserPort;

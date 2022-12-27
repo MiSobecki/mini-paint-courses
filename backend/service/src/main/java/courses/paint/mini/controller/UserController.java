@@ -1,4 +1,4 @@
-package courses.paint.mini.controller.user;
+package courses.paint.mini.controller;
 
 import courses.paint.mini.dto.user.UserDto;
 import courses.paint.mini.dto.user.UserRegisterDto;

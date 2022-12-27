@@ -10,9 +10,4 @@ export class HomepageCourseShortInfoComponent {
 
   @Input() course: CourseShortInfo = new CourseShortInfo();
 
-  openCourse(): void {
-    // TODO
-    console.log('Open Course');
-  }
-
 }
