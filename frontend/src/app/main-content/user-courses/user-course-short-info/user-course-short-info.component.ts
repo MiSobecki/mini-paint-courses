@@ -14,11 +14,6 @@ export class UserCourseShortInfoComponent {
   constructor(private courseService: CourseService) {
   }
 
-  updateCourse(): void {
-    // TODO
-    console.log('Update Course');
-  }
-
   deleteCourse(): void {
     this.courseService.delete(this.course.id);
   }

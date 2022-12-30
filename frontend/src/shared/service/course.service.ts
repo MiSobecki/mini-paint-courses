@@ -8,6 +8,7 @@ import {Course} from "../model/course";
 import {CourseStep} from "../model/course-step";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {CourseUpdateDto} from "../model/course-update-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -98,6 +99,37 @@ export class CourseService {
       ));
   }
 
+  update(course: CourseUpdateDto,
+         id: string): void {
+    this.convertPaintsMapsToJavaMap(course);
+
+    const credentials = this.authService.getCredentials();
+
+    if (credentials) {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + btoa(credentials.username + ':' + credentials.password)
+        })
+      };
+
+      firstValueFrom(this.httpClient.patch(environment.apiUrl + this.ROOT_URL + '/' + id, course, httpOptions))
+        .then(() => {
+          this.snackBar.open('Updated course successfully', 'Close', {
+            duration: 3000
+          });
+
+          this.router.navigate(['/user-courses']).finally();
+        })
+        .catch(error => {
+          console.log(error);
+          this.snackBar.open(error.message, 'Close', {
+            duration: 3000
+          });
+        });
+    }
+  }
+
   delete(id: string): void {
     const credentials = this.authService.getCredentials();
 
@@ -149,7 +181,7 @@ export class CourseService {
     return courseStep;
   }
 
-  private convertPaintsMapsToJavaMap(course: Course): void {
+  private convertPaintsMapsToJavaMap(course: Course | CourseUpdateDto): void {
     course.steps.forEach(x => {
       const paints = Object.create(null);
       for (const [k, v] of x.paintTechniqueIdToPaintIdMap) {

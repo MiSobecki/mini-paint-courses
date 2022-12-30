@@ -1,0 +1,173 @@
+.mat-mdc-form-field {
+  margin: 16px;
+}
+
+.basic-info-form {
+
+  .game-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 20px;
+
+    > h3 {
+      width: 33%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      > span {
+        text-align: center;
+      }
+    }
+  }
+
+  .short-description {
+    height: 200px;
+  }
+
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: flex-end;
+
+  > button:not(:last-child) {
+    margin-right: 20px;
+  }
+}
+
+.field {
+  width: 100%;
+}
+
+.steps-form {
+
+  display: flex;
+  flex-direction: column;
+
+  margin-right: 2%;
+  margin-left: 2%;
+
+  > button {
+    float: right;
+  }
+
+  .top-nav-buttons {
+
+    .left-button {
+      float: left;
+    }
+
+    .right-button {
+      float: right;
+    }
+
+  }
+
+  .steps {
+    padding-top: 20px;
+
+    .step-container {
+      border-style: double;
+
+      padding-right: 3%;
+      padding-left: 3%;
+
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+
+      .step-title {
+        display: flex;
+        align-items: center;
+
+        > button {
+          float: right;
+        }
+      }
+
+      .description {
+        height: 300px;
+      }
+
+      .used-paints {
+        width: 100%;
+        text-align: center;
+
+        > h3 {
+          margin: 0 auto;
+          width: 100px;
+        }
+
+        > button {
+          float: right;
+        }
+      }
+
+      .used-products {
+        padding-top: 20px;
+
+        width: 100%;
+        text-align: center;
+
+        > h3 {
+          margin: 0 auto;
+          width: 300px;
+        }
+
+        > button {
+          float: right;
+        }
+      }
+
+      .paints {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        width: 100%;
+      }
+
+      .modeling-products {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        width: 100%;
+
+        .modeling-product {
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          .modeling-product-input {
+            width: 300px;
+          }
+        }
+      }
+
+      .paint-selection {
+        align-items: center;
+
+        display: flex;
+        flex-direction: row;
+
+        width: 500px;
+
+        border-style: double;
+        margin: 10px;
+
+        font-size: 10px;
+
+        padding-right: 20px;
+      }
+    }
+  }
+}
+
+.header {
+  text-align: center;
+}
+
+
