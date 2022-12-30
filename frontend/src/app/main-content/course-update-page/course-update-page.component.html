@@ -1,0 +1,126 @@
+<div class="stepper">
+  <mat-stepper #stepper *ngIf="isLoaded">
+    <mat-step [stepControl]="basicInfoFormGroup">
+      <form [formGroup]="basicInfoFormGroup">
+        <ng-template matStepLabel>Fill basic info about course</ng-template>
+        <div class="basic-info-form">
+          <div class="game-info">
+            <h3>
+              <span><b>Game:</b></span>
+              <span>{{course?.miniature?.gameTitle}}</span>
+            </h3>
+            <h3>
+              <span><b>Faction:</b></span>
+              <span>{{course?.miniature?.factionName}}</span>
+            </h3>
+            <h3>
+              <span><b>Miniature:</b></span>
+              <span>{{course?.miniature?.name}}</span>
+            </h3>
+          </div>
+          <mat-form-field appearance="fill" class="field">
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="Course title" formControlName="title">
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="field">
+            <mat-label>Short description</mat-label>
+            <textarea matInput placeholder="Course short description" formControlName="shortDescription"
+                      class="short-description"></textarea>
+          </mat-form-field>
+          <div class="nav-buttons">
+            <button color="primary" mat-button (click)="onCancel()">Cancel</button>
+            <button color="primary" mat-button matStepperNext>Next</button>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="stepsFormGroup">
+      <form [formGroup]="stepsFormGroup">
+        <ng-template matStepLabel>Add steps</ng-template>
+        <div class="steps-form">
+          <div class="top-nav-buttons">
+            <button class="left-button" color="primary" mat-button matStepperPrevious>Go back</button>
+            <button class="right-button" color="primary" mat-button (click)="onSubmit()"
+                    [disabled]="!stepsFormGroup.valid || !basicInfoFormGroup.valid">Finish
+            </button>
+          </div>
+          <div class="steps">
+            <ng-container formArrayName="steps">
+              <ng-container *ngFor="let stepForm of steps.controls; let i = index">
+                <div formGroupName="{{i}}" class="step-container">
+                  <div class="step-title">
+                    <mat-form-field appearance="fill" class="field">
+                      <mat-label>Step title</mat-label>
+                      <input matInput placeholder="Step title" formControlName="title">
+                    </mat-form-field>
+                    <button color="accent" mat-button (click)="onStepRemoval(i)">Remove step</button>
+                  </div>
+                  <mat-form-field appearance="fill" class="field">
+                    <mat-label>Description</mat-label>
+                    <textarea matInput placeholder="Step description" formControlName="description"
+                              class="description"></textarea>
+                  </mat-form-field>
+                  <div class="used-paints">
+                    <button color="primary" mat-button (click)="addPaint(i)">Add used paint</button>
+                    <h3 class="header"><b>Used paints</b></h3>
+                  </div>
+                  <div class="paints">
+                    <ng-container formArrayName="paints">
+                      <ng-container *ngFor="let paint of getPaints(i).controls; let y = index">
+                        <div [formGroupName]="y" class="paint-selection">
+                          <mat-form-field appearance="fill" class="field">
+                            <mat-label>Paint</mat-label>
+                            <mat-select formControlName="paint">
+                              <ng-container *ngFor="let paint of (paints$ | async)">
+                                <mat-option value="{{paint.id}}">{{paint.name}}</mat-option>
+                              </ng-container>
+                            </mat-select>
+                          </mat-form-field>
+                          <mat-form-field appearance="fill" class="field">
+                            <mat-label>Technique</mat-label>
+                            <mat-select formControlName="technique">
+                              <ng-container *ngFor="let technique of (paintingTechniques$ | async)">
+                                <mat-option value="{{technique.id}}">{{technique.name}}</mat-option>
+                              </ng-container>
+                            </mat-select>
+                          </mat-form-field>
+                          <button color="accent" mat-button (click)="removePaint(i, y)">Remove</button>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                  <div class="used-products">
+                    <button color="primary" mat-button (click)="addModelingProduct(i)">Add used modeling product
+                    </button>
+                    <h3 class="header"><b>Used modeling products</b></h3>
+                  </div>
+                  <div class="modeling-products">
+                    <ng-container formArrayName="modelingProducts">
+                      <ng-container *ngFor="let product of getProducts(i).controls; let y = index">
+                        <div class="modeling-product">
+                          <mat-form-field appearance="fill" class="modeling-product-input">
+                            <mat-select [formControlName]="y">
+                              <ng-container *ngFor="let product of (modelingProducts$ | async)">
+                                <mat-option value="{{product.id}}">{{product.name}}</mat-option>
+                              </ng-container>
+                            </mat-select>
+                          </mat-form-field>
+                          <button color="accent" mat-button (click)="removeProduct(i, y)">Remove</button>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+          <div class="nav-buttons">
+            <button class="right-button" color="primary" mat-button (click)="addStep()">Add new step</button>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+  </mat-stepper>
+</div>
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

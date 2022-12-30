@@ -30,6 +30,7 @@ import { CourseCreationPageComponent } from './main-content/course-creation-page
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatSelectModule} from "@angular/material/select";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { CourseUpdatePageComponent } from './main-content/course-update-page/course-update-page.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     UserCourseShortInfoComponent,
     CourseDisplayPageComponent,
     CourseStepDisplayComponent,
-    CourseCreationPageComponent
+    CourseCreationPageComponent,
+    CourseUpdatePageComponent
   ],
   imports: [
     BrowserModule,

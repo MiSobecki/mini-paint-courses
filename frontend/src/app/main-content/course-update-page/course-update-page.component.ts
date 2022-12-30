@@ -1,29 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
-import {GameService} from "../../../shared/service/game.service";
-import {GameShortInfo} from "../../../shared/model/game-short-info";
 import {Observable, of} from "rxjs";
-import {FactionService} from "../../../shared/service/faction.service";
-import {FactionShortInfo} from "../../../shared/model/faction-short-info";
-import {MiniatureShortInfo} from "../../../shared/model/miniature-short-info";
-import {MiniatureService} from "../../../shared/service/miniature.service";
-import {PaintService} from "../../../shared/service/paint.service";
-import {PaintingTechniqueService} from "../../../shared/service/painting-technique.service";
 import {Paint} from "../../../shared/model/paint";
 import {PaintingTechnique} from "../../../shared/model/painting-technique";
-import {Course} from "../../../shared/model/course";
-import {CourseMiniature} from "../../../shared/model/course-miniature";
-import {CourseStep} from "../../../shared/model/course-step";
+import {ModelingProduct} from "../../../shared/model/modeling-product";
+import {PaintService} from "../../../shared/service/paint.service";
+import {PaintingTechniqueService} from "../../../shared/service/painting-technique.service";
 import {CourseService} from "../../../shared/service/course.service";
 import {ModelingProductService} from "../../../shared/service/modeling-product.service";
-import {ModelingProduct} from "../../../shared/model/modeling-product";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Course} from "../../../shared/model/course";
+import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
+import {CourseUpdateDto} from "../../../shared/model/course-update-dto";
+import {CourseStep} from "../../../shared/model/course-step";
 
 @Component({
-  selector: 'app-course-creation-page',
-  templateUrl: './course-creation-page.component.html',
-  styleUrls: ['./course-creation-page.component.scss'],
+  selector: 'app-course-update-page',
+  templateUrl: './course-update-page.component.html',
+  styleUrls: ['./course-update-page.component.scss'],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
@@ -31,35 +25,30 @@ import {Router} from "@angular/router";
     },
   ],
 })
-export class CourseCreationPageComponent implements OnInit {
+export class CourseUpdatePageComponent implements OnInit {
 
   basicInfoFormGroup: FormGroup;
   stepsFormGroup: FormGroup;
-
-  games$: Observable<GameShortInfo[]> = of([]);
-  factions$: Observable<FactionShortInfo[]> = of([]);
-  miniatures$: Observable<MiniatureShortInfo[]> = of([]);
   paints$: Observable<Paint[]> = of([]);
   paintingTechniques$: Observable<PaintingTechnique[]> = of([]);
   modelingProducts$: Observable<ModelingProduct[]> = of([]);
 
+  course?: Course;
+
+  isLoaded = false;
+
   constructor(private formBuilder: FormBuilder,
-              private gameService: GameService,
-              private factionService: FactionService,
-              private miniatureService: MiniatureService,
               private paintService: PaintService,
               private paintingTechniqueService: PaintingTechniqueService,
               private courseService: CourseService,
               private modelingProductService: ModelingProductService,
-              private router: Router) {
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
     this.basicInfoFormGroup = this.formBuilder.group({});
     this.stepsFormGroup = this.formBuilder.group({});
   }
 
   ngOnInit(): void {
-    this.gameService.findAll();
-    this.games$ = this.gameService.gamesShortInfo$;
-
     this.paintService.findAll();
     this.paints$ = this.paintService.paints$;
 
@@ -69,42 +58,24 @@ export class CourseCreationPageComponent implements OnInit {
     this.modelingProductService.findAll();
     this.modelingProducts$ = this.modelingProductService.modelingProducts$;
 
-    this.basicInfoFormGroup = this.formBuilder.group({
-      game: ['', Validators.required],
-      faction: ['', Validators.required],
-      miniature: ['', Validators.required],
-      title: ['', [Validators.required, Validators.maxLength(100)]],
-      shortDescription: ['', [Validators.required, Validators.maxLength(500)]]
+    const routeParams = this.activatedRoute.snapshot.paramMap;
+    const courseId = String(routeParams.get('courseId'));
+
+    this.courseService.find(courseId).then((course: Course) => {
+      this.course = course;
+
+      this.course.steps = this.course.steps.sort((a, b) => a.orderNumber - b.orderNumber);
+
+      this.basicInfoFormGroup = this.formBuilder.group({
+        title: [this.course?.title, [Validators.required, Validators.maxLength(100)]],
+        shortDescription: [this.course?.shortDescription, [Validators.required, Validators.maxLength(500)]]
+      });
+      this.stepsFormGroup = this.formBuilder.group({
+        steps: this.formBuilder.array(this.createStepsControls(), Validators.required)
+      });
+
+      this.isLoaded = true;
     });
-    this.stepsFormGroup = this.formBuilder.group({
-      steps: this.formBuilder.array([], Validators.required)
-    });
-  }
-
-  get gameId(): string {
-    return this.basicInfoFormGroup.get('game')?.value;
-  }
-
-  onGameSelect(): void {
-    const gameId = this.gameId;
-
-    if (gameId) {
-      this.factionService.findAllByGame(gameId);
-      this.factions$ = this.factionService.factionsShortInfo$;
-    }
-  }
-
-  get factionId(): string {
-    return this.basicInfoFormGroup.get('faction')?.value;
-  }
-
-  onFactionSelect(): void {
-    const factionId = this.factionId;
-
-    if (factionId) {
-      this.miniatureService.findAllByFaction(factionId);
-      this.miniatures$ = this.miniatureService.miniaturesShortInfo$;
-    }
   }
 
   get steps(): FormArray {
@@ -170,8 +141,6 @@ export class CourseCreationPageComponent implements OnInit {
   onSubmit(): void {
     const basicInfo = this.basicInfoFormGroup.value;
 
-    const miniature = new CourseMiniature(basicInfo.miniature, '', '', '', '');
-
     const stepsInfo = this.stepsFormGroup.value;
 
     const steps: CourseStep[] = [];
@@ -195,9 +164,11 @@ export class CourseCreationPageComponent implements OnInit {
       index += 1;
     });
 
-    const course = new Course(null, basicInfo.title, basicInfo.shortDescription, steps, miniature, null);
+    const courseUpdateDto = new CourseUpdateDto(basicInfo.title, basicInfo.shortDescription, steps);
 
-    this.courseService.create(course);
+    if (this.course?.id) {
+      this.courseService.update(courseUpdateDto, this.course.id)
+    }
   }
 
   onCancel(): void {
@@ -206,6 +177,22 @@ export class CourseCreationPageComponent implements OnInit {
 
   onStepRemoval(index: number): void {
     this.steps.removeAt(index);
+  }
+
+  private createStepsControls(): FormGroup[] {
+    if (this.course) {
+      return this.course?.steps.map(x => this.formBuilder.group({
+        title: [x.title, [Validators.required, Validators.maxLength(100)]],
+        description: [x.description, [Validators.required, Validators.maxLength(1000)]],
+        paints: [...x.paintTechniqueIdToPaintIdMap].map(([key, value]) => this.formBuilder.group({
+          paint: [key, Validators.required],
+          technique: [value, Validators.required]
+        })),
+        modelingProducts: x.usedOtherModelingProductIds.map(product => [product, Validators.required])
+      }));
+    } else {
+      return [];
+    }
   }
 
 }
