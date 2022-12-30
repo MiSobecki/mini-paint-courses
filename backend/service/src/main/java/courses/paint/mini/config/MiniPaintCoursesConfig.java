@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@Import({CourseConfig.class, UserConfig.class, PaintConfig.class, PaintingTechniqueConfig.class})
+@Import({CourseConfig.class, UserConfig.class, ProductConfig.class, PaintingTechniqueConfig.class, GameConfig.class})
 public class MiniPaintCoursesConfig {
 
     @Bean

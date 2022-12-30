@@ -18,4 +18,7 @@ public interface MiniatureMapper {
     @Named("fromMiniature")
     MiniatureEntity fromMiniature(Miniature miniature);
 
+    @Mapping(target = "faction", ignore = true)
+    Miniature toMiniatureShortInfo(MiniatureEntity miniatureEntity);
+
 }

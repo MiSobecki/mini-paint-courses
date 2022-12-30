@@ -6,6 +6,8 @@ import {environment} from "../../environments/environment";
 import {AuthService} from "./auth.service";
 import {Course} from "../model/course";
 import {CourseStep} from "../model/course-step";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +25,39 @@ export class CourseService {
   pageSize = 10;
 
   constructor(private httpClient: HttpClient,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private snackBar: MatSnackBar,
+              private router: Router) {
+  }
+
+  create(course: Course): void {
+    this.convertPaintsMapsToJavaMap(course);
+
+    const credentials = this.authService.getCredentials();
+
+    if (credentials) {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + btoa(credentials.username + ':' + credentials.password)
+        })
+      };
+
+      firstValueFrom(this.httpClient.post(environment.apiUrl + this.ROOT_URL, course, httpOptions))
+        .then(() => {
+          this.snackBar.open('Created course successfully', 'Close', {
+            duration: 3000
+          });
+
+          this.router.navigate(['/user-courses']).finally();
+        })
+        .catch(error => {
+          console.log(error);
+          this.snackBar.open(error.message, 'Close', {
+            duration: 3000
+          });
+        });
+    }
   }
 
   findAll(pageNumber: number,
@@ -43,6 +77,13 @@ export class CourseService {
 
         const courses = response.content as CourseShortInfo[];
         this._coursesShortInfo.next(courses);
+      }),
+      catchError(error => {
+        console.log(error);
+        this.snackBar.open(error.message, 'Close', {
+          duration: 3000
+        });
+        return error;
       })
     ).subscribe();
   }
@@ -75,11 +116,17 @@ export class CourseService {
           courses = courses.filter(x => x.id !== id);
 
           this._coursesShortInfo.next(courses);
+
+          this.snackBar.open('Deleted course successfully', 'Close', {
+            duration: 3000
+          });
         }),
         catchError((error) => {
           console.log(error);
-
-          return error;
+          this.snackBar.open(error.message, 'Close', {
+            duration: 3000
+          });
+          return error
         })
       ).subscribe();
     }
@@ -100,6 +147,16 @@ export class CourseService {
     courseStep.paintTechniqueIdToPaintIdMap = newPaints;
 
     return courseStep;
+  }
+
+  private convertPaintsMapsToJavaMap(course: Course): void {
+    course.steps.forEach(x => {
+      const paints = Object.create(null);
+      for (const [k, v] of x.paintTechniqueIdToPaintIdMap) {
+        paints[k] = v;
+      }
+      x.paintTechniqueIdToPaintIdMap = paints;
+    });
   }
 
 }
