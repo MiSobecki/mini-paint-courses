@@ -4,18 +4,22 @@ import {UserDto} from "./user-dto";
 
 export class Course {
 
-  constructor(id: string,
+  constructor(id: string | null,
               title: string,
               shortDescription: string,
               steps: CourseStep[],
               miniature: CourseMiniature,
-              user: UserDto) {
-    this.id = id;
+              user: UserDto | null) {
+    if (id) {
+      this.id = id;
+    }
     this.title = title;
     this.shortDescription = shortDescription;
     this.steps = steps;
     this.miniature = miniature;
-    this.user = user;
+    if (user) {
+      this.user = user;
+    }
   }
 
   id!: string;

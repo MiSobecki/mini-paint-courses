@@ -15,4 +15,8 @@ public interface FactionMapper {
     @Mapping(source = "game", target = "game", qualifiedByName = "fromGameWithoutFactions")
     FactionEntity fromFaction(Faction faction);
 
+    @Mapping(target = "miniatures", ignore = true)
+    @Mapping(target = "game", ignore = true)
+    Faction toFactionShortInfo(FactionEntity factionEntity);
+
 }

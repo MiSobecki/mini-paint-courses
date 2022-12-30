@@ -5,13 +5,15 @@ import {LoginRegisterFormComponent} from "./main-content/login-register-form/log
 import {UserCoursesComponent} from "./main-content/user-courses/user-courses.component";
 import {AuthGuard} from "../shared/guard/auth.guard";
 import {CourseDisplayPageComponent} from "./main-content/course-display-page/course-display-page.component";
+import {CourseCreationPageComponent} from "./main-content/course-creation-page/course-creation-page.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/homepage', pathMatch: 'full'},
   {path: 'homepage', title: 'Homepage', component: HomepageComponent},
   {path: 'user-courses', title: 'UserDto Courses', component: UserCoursesComponent, canActivate: [AuthGuard]},
   {path: 'login', title: 'Login', component: LoginRegisterFormComponent},
-  {path: 'courses/:courseId', title: 'Course', component: CourseDisplayPageComponent}
+  {path: 'courses/:courseId', title: 'Course', component: CourseDisplayPageComponent},
+  {path: 'course-create', title: 'Course creation', component: CourseCreationPageComponent}
 ];
 
 @NgModule({

@@ -3,6 +3,7 @@ import {BehaviorSubject, catchError, Observable, Subscription, tap} from "rxjs";
 import {PaintingTechnique} from "../model/painting-technique";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class PaintingTechniqueService {
   paintingTechniques$: Observable<PaintingTechnique[]> = this._paintingTechniques.asObservable();
   private paintingTechniquesSub: Subscription | undefined;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private snackBar: MatSnackBar) {
   }
 
   findAll(): void {
@@ -25,6 +27,9 @@ export class PaintingTechniqueService {
       }),
       catchError((error) => {
         console.log(error);
+        this.snackBar.open(error.message, 'Close', {
+          duration: 3000
+        });
         return error;
       })
     )

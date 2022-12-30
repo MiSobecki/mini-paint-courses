@@ -1,7 +1,7 @@
 package courses.paint.mini.dto.course;
 
-import courses.paint.mini.dto.user.UserDto;
 import courses.paint.mini.dto.game.CourseMiniatureDto;
+import courses.paint.mini.dto.user.UserDto;
 import lombok.*;
 
 import javax.validation.Valid;
@@ -28,8 +28,6 @@ public class CourseDto {
     @NotNull(message = "Miniature is mandatory")
     @Valid
     private CourseMiniatureDto miniature;
-    @NotNull(message = "User is mandatory")
-    @Valid
     private UserDto user;
 
 }

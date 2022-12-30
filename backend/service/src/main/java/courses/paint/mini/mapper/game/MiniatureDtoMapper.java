@@ -1,6 +1,7 @@
 package courses.paint.mini.mapper.game;
 
 import courses.paint.mini.dto.game.CourseMiniatureDto;
+import courses.paint.mini.dto.game.MiniatureShortInfoDto;
 import courses.paint.mini.model.game.Faction;
 import courses.paint.mini.model.game.Miniature;
 import org.mapstruct.Mapper;
@@ -16,6 +17,8 @@ public interface MiniatureDtoMapper {
     @Mapping(source = "faction.name", target = "factionName")
     @Mapping(source = "faction.game.title", target = "gameTitle")
     CourseMiniatureDto fromMiniature(Miniature miniature);
+
+    MiniatureShortInfoDto toMiniatureShortInfoDto(Miniature miniature);
 
     @Named("fromFactionName")
     default Faction fromFactionName(String factionName) {

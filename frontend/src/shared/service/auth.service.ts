@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {BehaviorSubject, firstValueFrom, Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import {Credentials} from "../model/credentials";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class AuthService {
   private _isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isAuthenticated$: Observable<boolean> = this._isAuthenticated.asObservable();
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private snackBar: MatSnackBar) {
   }
 
   startupLogin(): void {
@@ -43,7 +45,13 @@ export class AuthService {
     return firstValueFrom(this.httpClient.post(environment.apiUrl + '/api/users', new Credentials(username, password))).then(() => {
       sessionStorage.setItem(this.CREDENTIALS_STORAGE, JSON.stringify(new Credentials(username, password)));
       this._isAuthenticated.next(true);
-    });
+    })
+      .catch(error => {
+        console.log(error);
+        this.snackBar.open(error.message, 'Close', {
+          duration: 3000
+        });
+      });
   }
 
   getUsername(): string {
@@ -82,7 +90,13 @@ export class AuthService {
     return firstValueFrom(this.httpClient.get(environment.apiUrl + '/api/users', httpOptions)).then(() => {
       sessionStorage.setItem(this.CREDENTIALS_STORAGE, JSON.stringify(new Credentials(username, password)));
       this._isAuthenticated.next(true);
-    });
+    })
+      .catch(error => {
+        console.log(error);
+        this.snackBar.open(error.message, 'Close', {
+          duration: 3000
+        });
+      });
   }
 
 }

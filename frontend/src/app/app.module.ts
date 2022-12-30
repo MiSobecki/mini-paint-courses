@@ -18,7 +18,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginRegisterFormComponent } from './main-content/login-register-form/login-register-form.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import { UserCoursesComponent } from './main-content/user-courses/user-courses.component';
@@ -26,6 +26,10 @@ import { UserCourseShortInfoComponent } from './main-content/user-courses/user-c
 import { CourseDisplayPageComponent } from './main-content/course-display-page/course-display-page.component';
 import { CourseStepDisplayComponent } from './main-content/course-display-page/course-step-display/course-step-display.component';
 import {MatChipsModule} from "@angular/material/chips";
+import { CourseCreationPageComponent } from './main-content/course-creation-page/course-creation-page.component';
+import {MatStepperModule} from "@angular/material/stepper";
+import {MatSelectModule} from "@angular/material/select";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -37,25 +41,30 @@ import {MatChipsModule} from "@angular/material/chips";
     UserCoursesComponent,
     UserCourseShortInfoComponent,
     CourseDisplayPageComponent,
-    CourseStepDisplayComponent
+    CourseStepDisplayComponent,
+    CourseCreationPageComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatSidenavModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatCardModule,
-        HttpClientModule,
-        MatGridListModule,
-        MatPaginatorModule,
-        NgbModule,
-        FormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatChipsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatCardModule,
+    HttpClientModule,
+    MatGridListModule,
+    MatPaginatorModule,
+    NgbModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatChipsModule,
+    MatStepperModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatSnackBarModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

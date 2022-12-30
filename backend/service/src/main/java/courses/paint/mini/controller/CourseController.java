@@ -1,11 +1,13 @@
 package courses.paint.mini.controller;
 
+import courses.paint.mini.auth.AuthenticationFacade;
 import courses.paint.mini.dto.course.CourseDto;
 import courses.paint.mini.dto.course.CourseShortInfoDto;
 import courses.paint.mini.dto.course.CourseUpdateDto;
 import courses.paint.mini.mapper.course.CourseDtoMapper;
 import courses.paint.mini.model.course.CourseFilters;
 import courses.paint.mini.usecase.course.*;
+import courses.paint.mini.usecase.user.GetUserByUsernameUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,13 +28,22 @@ public class CourseController {
     private final CreateCourseUseCase createCourseUseCase;
     private final UpdateCourseUseCase updateCourseUseCase;
     private final DeleteCourseUseCase deleteCourseUseCase;
+    private final GetUserByUsernameUseCase getUserByUsernameUseCase;
     private final CourseDtoMapper courseMapper;
+
+    private final AuthenticationFacade authenticationFacade;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public CourseDto create(@RequestBody @Valid CourseDto courseDto) {
         var course = courseMapper.toCourse(courseDto);
+
+        var auth = authenticationFacade.getAuthentication();
+        var user = getUserByUsernameUseCase.execute(auth.getName());
+
+        course.setUser(user);
+
         course = createCourseUseCase.execute(course);
 
         return courseMapper.fromCourse(course);
