@@ -31,6 +31,9 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {MatSelectModule} from "@angular/material/select";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { CourseUpdatePageComponent } from './main-content/course-update-page/course-update-page.component';
+import {MatExpansionModule} from "@angular/material/expansion";
+import { CourseFiltersComponent } from './main-content/course-filters/course-filters.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -44,7 +47,8 @@ import { CourseUpdatePageComponent } from './main-content/course-update-page/cou
     CourseDisplayPageComponent,
     CourseStepDisplayComponent,
     CourseCreationPageComponent,
-    CourseUpdatePageComponent
+    CourseUpdatePageComponent,
+    CourseFiltersComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +69,9 @@ import { CourseUpdatePageComponent } from './main-content/course-update-page/cou
     MatStepperModule,
     ReactiveFormsModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatExpansionModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

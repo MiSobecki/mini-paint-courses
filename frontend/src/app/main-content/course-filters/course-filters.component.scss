@@ -1,0 +1,21 @@
+mat-panel-title {
+  justify-content: center !important;
+}
+
+.course-title {
+  width: 500px;
+}
+
+.field {
+  padding-right: 20px;
+}
+
+.filter-buttons {
+  display: flex;
+
+  justify-content: center;
+
+  > button:not(:last-child) {
+    margin-right: 20px;
+  }
+}

@@ -25,6 +25,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/api/games").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/games/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/factions/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/producers").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()

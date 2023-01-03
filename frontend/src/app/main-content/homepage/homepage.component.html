@@ -1,4 +1,5 @@
 <div class="homepage">
+  <app-course-filters (search)="onSearch($event)"></app-course-filters>
   <div class="homepage-buttons">
     <button mat-button color="primary" (click)="openCourseCreation()" *ngIf="isAuthenticated">Create new course</button>
   </div>
@@ -8,7 +9,7 @@
     </div>
   </div>
   <div class="pagination">
-    <ngb-pagination [collectionSize]="totalElements" [(page)]="pageNumber" [pageSize]="pageSize"
+    <ngb-pagination [collectionSize]="totalElements" [(page)]="pageNumber" [pageSize]="pageSize" (pageChange)="onPageChange()"
                     aria-label="Default pagination"></ngb-pagination>
   </div>
 </div>

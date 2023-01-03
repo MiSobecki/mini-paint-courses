@@ -9,6 +9,7 @@ import {CourseStep} from "../model/course-step";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
 import {CourseUpdateDto} from "../model/course-update-dto";
+import {CourseFilters} from "../model/course-filters";
 
 @Injectable({
   providedIn: 'root'
@@ -62,14 +63,8 @@ export class CourseService {
   }
 
   findAll(pageNumber: number,
-          username: string | undefined): void {
-    let params = new HttpParams();
-    params = params.append('page', pageNumber - 1);
-    params = params.append('size', this.pageSize);
-
-    if (username) {
-      params = params.append('username', username);
-    }
+          courseFilters: CourseFilters): void {
+    const params = this.createParams(pageNumber, courseFilters);
 
     this.coursesShortInfoSub = this.httpClient.get(environment.apiUrl + this.ROOT_URL, {params: params}).pipe(
       tap((response: any) => {
@@ -189,6 +184,40 @@ export class CourseService {
       }
       x.paintTechniqueIdToPaintIdMap = paints;
     });
+  }
+
+  private createParams(pageNumber: number,
+                       filters: CourseFilters): HttpParams {
+    let params = new HttpParams();
+    params = params.append('page', pageNumber - 1);
+    params = params.append('size', this.pageSize);
+
+    if (filters.username) {
+      params = params.append('username', filters.username);
+    }
+    if (filters.courseTitle) {
+      params = params.append('courseTitle', filters.courseTitle);
+    }
+    if (filters.gameId) {
+      params = params.append('gameId', filters.gameId);
+    }
+    if (filters.factionId) {
+      params = params.append('factionId', filters.factionId);
+    }
+    if (filters.miniatureId) {
+      params = params.append('miniatureId', filters.miniatureId);
+    }
+    if (filters.miniatureProducerId) {
+      params = params.append('miniatureProducerId', filters.miniatureProducerId);
+    }
+    if (filters.modelingProductId) {
+      params = params.append('modelingProductId', filters.modelingProductId);
+    }
+    if (filters.paintId) {
+      params = params.append('paintId', filters.paintId);
+    }
+
+    return params;
   }
 
 }
