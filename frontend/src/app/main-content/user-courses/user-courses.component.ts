@@ -3,6 +3,8 @@ import {Observable, of, Subscription} from "rxjs";
 import {CourseShortInfo} from "../../../shared/model/course-short-info";
 import {CourseService} from "../../../shared/service/course.service";
 import {AuthService} from "../../../shared/service/auth.service";
+import {CourseFilters} from "../../../shared/model/course-filters";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-courses',
@@ -19,8 +21,19 @@ export class UserCoursesComponent implements OnInit, OnDestroy {
 
   coursesSub: Subscription | undefined;
 
+  filters: CourseFilters = new CourseFilters(
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '');
+
   constructor(private courseService: CourseService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -30,13 +43,31 @@ export class UserCoursesComponent implements OnInit, OnDestroy {
       this.pageNumber = this.courseService.currentPage;
       this.totalElements = this.courseService.totalElements;
       this.pageSize = this.courseService.pageSize;
-    })
+    });
 
-    this.courseService.findAll(this.pageNumber, this.authService.getUsername());
+    this.filters.username = this.authService.getUsername();
+
+    this.courseService.findAll(this.pageNumber, this.filters);
   }
 
   ngOnDestroy() {
     this.coursesSub?.unsubscribe();
+  }
+
+  onSearch(filters: CourseFilters): void {
+    this.filters = filters;
+
+    this.filters.username = this.authService.getUsername();
+
+    this.courseService.findAll(this.pageNumber, this.filters);
+  }
+
+  onPageChange(): void {
+    this.courseService.findAll(this.pageNumber, this.filters);
+  }
+
+  openCourseCreation(): void {
+    this.router.navigate(['/course-create']).finally();
   }
 
 }

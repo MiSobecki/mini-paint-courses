@@ -1,0 +1,71 @@
+<mat-accordion>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title><b>Filters</b></mat-panel-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="filtersForm">
+      <mat-form-field appearance="fill" class="course-title field">
+        <mat-label>Title</mat-label>
+        <input matInput placeholder="Course title" formControlName="courseTitle">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="field">
+        <mat-label>Game</mat-label>
+        <mat-select formControlName="gameId" (selectionChange)="onGameSelect()">
+          <ng-container *ngFor="let game of (games$ | async)">
+            <mat-option value="{{game.id}}">{{game.title}}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="field" matTooltip="Select game first"
+                      [matTooltipDisabled]="gameId !== ''">
+        <mat-label>Faction</mat-label>
+        <mat-select formControlName="factionId" (selectionChange)="onFactionSelect()">
+          <ng-container *ngFor="let faction of (factions$ | async)">
+            <mat-option value="{{faction.id}}">{{faction.name}}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="field" matTooltip="Select faction first"
+                      [matTooltipDisabled]="factionIdControl.value !== ''">
+        <mat-label>Miniature</mat-label>
+        <mat-select formControlName="miniatureId">
+          <ng-container *ngFor="let miniature of (miniatures$ | async)">
+            <mat-option value="{{miniature.id}}">{{miniature.name}}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="field">
+        <mat-label>Used paint</mat-label>
+        <mat-select formControlName="paintId">
+          <ng-container *ngFor="let paint of (paints$ | async)">
+            <mat-option value="{{paint.id}}">{{paint.name}}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="field">
+        <mat-label>Author</mat-label>
+        <input matInput placeholder="Course author" formControlName="courseAuthor">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="field">
+        <mat-label>Miniature producer</mat-label>
+        <mat-select formControlName="producerId">
+          <ng-container *ngFor="let producer of (producers$ | async)">
+            <mat-option value="{{producer.id}}">{{producer.name}}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="field">
+        <mat-label>Modeling product</mat-label>
+        <mat-select formControlName="modelingProductId">
+          <ng-container *ngFor="let modelingProduct of (modelingProducts$ | async)">
+            <mat-option value="{{modelingProduct.id}}">{{modelingProduct.name}}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </form>
+    <div class="filter-buttons">
+      <button mat-button color="primary" (click)="onResetFilters()">Reset filters</button>
+      <button mat-button color="primary" (click)="onSearch()">Search</button>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

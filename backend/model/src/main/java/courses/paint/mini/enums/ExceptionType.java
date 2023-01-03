@@ -5,7 +5,8 @@ public enum ExceptionType {
     INVALID,
     NOT_FOUND,
     NOT_UNIQUE,
-    UNKNOWN
+    UNKNOWN,
+    ACCESS_DENIED
 
 
 }

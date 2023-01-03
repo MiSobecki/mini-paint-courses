@@ -1,6 +1,7 @@
 package courses.paint.mini.controller;
 
 import courses.paint.mini.auth.AuthenticationFacade;
+import courses.paint.mini.auth.CourseAuthorizationVerifier;
 import courses.paint.mini.dto.course.CourseDto;
 import courses.paint.mini.dto.course.CourseShortInfoDto;
 import courses.paint.mini.dto.course.CourseUpdateDto;
@@ -32,6 +33,7 @@ public class CourseController {
     private final CourseDtoMapper courseMapper;
 
     private final AuthenticationFacade authenticationFacade;
+    private final CourseAuthorizationVerifier courseAuthorizationVerifier;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -72,6 +74,8 @@ public class CourseController {
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public CourseDto update(@PathVariable String id,
                             @RequestBody @Valid CourseUpdateDto courseUpdateDto) {
+        courseAuthorizationVerifier.verifyPermissionsToCourse(id);
+
         var course = courseMapper.fromCourseUpdateDto(courseUpdateDto);
         course = updateCourseUseCase.execute(course, id);
 
@@ -82,6 +86,8 @@ public class CourseController {
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
+        courseAuthorizationVerifier.verifyPermissionsToCourse(id);
+
         deleteCourseUseCase.execute(id);
     }
 

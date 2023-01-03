@@ -4,6 +4,7 @@ import courses.paint.mini.dto.errorresponse.ErrorMessageResponse;
 import courses.paint.mini.dto.errorresponse.ValidationErrorResponse;
 import courses.paint.mini.enums.ExceptionType;
 import courses.paint.mini.exception.BasicException;
+import courses.paint.mini.exception.ForbiddenCourseActionException;
 import courses.paint.mini.exception.course.NonUniqueCourseException;
 import courses.paint.mini.exception.course.NotFoundCourseException;
 import courses.paint.mini.exception.user.*;
@@ -32,6 +33,16 @@ public class MiniPaintCoursesExceptionHandler extends ResponseEntityExceptionHan
                         ExceptionType.UNKNOWN,
                         LocalDateTime.now()),
                 HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = ForbiddenCourseActionException.class)
+    protected ResponseEntity<ErrorMessageResponse> handleForbiddenException(Exception ex) {
+        return new ResponseEntity<>(
+                new ErrorMessageResponse(
+                        ex.getMessage(),
+                        ExceptionType.ACCESS_DENIED,
+                        LocalDateTime.now()),
+                HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(value = {

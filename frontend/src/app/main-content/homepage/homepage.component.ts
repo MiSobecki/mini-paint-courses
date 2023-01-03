@@ -4,6 +4,7 @@ import {CourseShortInfo} from "../../../shared/model/course-short-info";
 import {CourseService} from "../../../shared/service/course.service";
 import {AuthService} from "../../../shared/service/auth.service";
 import {Router} from "@angular/router";
+import {CourseFilters} from "../../../shared/model/course-filters";
 
 @Component({
   selector: 'app-homepage',
@@ -23,6 +24,16 @@ export class HomepageComponent implements OnInit, OnDestroy {
   coursesSub: Subscription | undefined;
   isAuthenticatedSub?: Subscription;
 
+  filters: CourseFilters = new CourseFilters(
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '');
+
   constructor(private courseService: CourseService,
               private authService: AuthService,
               private router: Router) {
@@ -37,11 +48,11 @@ export class HomepageComponent implements OnInit, OnDestroy {
       this.pageSize = this.courseService.pageSize;
     })
 
-    this.courseService.findAll(this.pageNumber, undefined);
+    this.courseService.findAll(this.pageNumber, this.filters);
 
     this.authService.isAuthenticated$.subscribe((value: boolean) => {
       this.isAuthenticated = value;
-    })
+    });
   }
 
   ngOnDestroy() {
@@ -51,6 +62,16 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   openCourseCreation(): void {
     this.router.navigate(['/course-create']).finally();
+  }
+
+  onSearch(filters: CourseFilters): void {
+    this.filters = filters;
+
+    this.courseService.findAll(this.pageNumber, this.filters);
+  }
+
+  onPageChange(): void {
+    this.courseService.findAll(this.pageNumber, this.filters);
   }
 
 }

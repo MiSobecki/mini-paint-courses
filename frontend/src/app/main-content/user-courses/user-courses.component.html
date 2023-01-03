@@ -1,4 +1,8 @@
 <div class="user-courses">
+  <app-course-filters (search)="onSearch($event)"></app-course-filters>
+  <div class="homepage-buttons">
+    <button mat-button color="primary" (click)="openCourseCreation()">Create new course</button>
+  </div>
   <div class="cards-list">
     <div *ngFor="let course of (courses | async)">
       <app-user-course-short-info [course]="course"></app-user-course-short-info>
@@ -6,6 +10,7 @@
   </div>
   <div class="pagination">
     <ngb-pagination [collectionSize]="totalElements" [(page)]="pageNumber" [pageSize]="pageSize"
+                    (pageChange)="onPageChange()"
                     aria-label="Default pagination"></ngb-pagination>
   </div>
 </div>
