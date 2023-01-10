@@ -1,4 +1,4 @@
-package courses.paint.mini.user;
+package courses.paint.mini.repository.user;
 
 import courses.paint.mini.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

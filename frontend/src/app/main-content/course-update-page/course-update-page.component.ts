@@ -184,11 +184,11 @@ export class CourseUpdatePageComponent implements OnInit {
       return this.course?.steps.map(x => this.formBuilder.group({
         title: [x.title, [Validators.required, Validators.maxLength(100)]],
         description: [x.description, [Validators.required, Validators.maxLength(1000)]],
-        paints: [...x.paintTechniqueIdToPaintIdMap].map(([key, value]) => this.formBuilder.group({
+        paints: this.formBuilder.array([...x.paintTechniqueIdToPaintIdMap].map(([key, value]) => this.formBuilder.group({
           paint: [key, Validators.required],
           technique: [value, Validators.required]
-        })),
-        modelingProducts: x.usedOtherModelingProductIds.map(product => [product, Validators.required])
+        }))),
+        modelingProducts: this.formBuilder.array(x.usedOtherModelingProductIds.map(product => [product, Validators.required]))
       }));
     } else {
       return [];

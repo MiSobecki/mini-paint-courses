@@ -26,11 +26,14 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/api/games/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/factions/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/producers").permitAll()
+                .antMatchers("/h2-console").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
                 .and()
                 .cors()
+                .and()
+                .headers().frameOptions().disable()
                 .and()
                 .build();
     }

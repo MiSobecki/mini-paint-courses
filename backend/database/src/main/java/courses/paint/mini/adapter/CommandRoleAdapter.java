@@ -3,7 +3,7 @@ package courses.paint.mini.adapter;
 import courses.paint.mini.mapper.RoleMapper;
 import courses.paint.mini.model.Role;
 import courses.paint.mini.port.CommandRolePort;
-import courses.paint.mini.user.RoleRepository;
+import courses.paint.mini.repository.user.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

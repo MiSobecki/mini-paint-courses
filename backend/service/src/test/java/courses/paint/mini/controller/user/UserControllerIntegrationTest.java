@@ -1,7 +1,7 @@
 package courses.paint.mini.controller.user;
 
 import com.jayway.jsonpath.JsonPath;
-import courses.paint.mini.user.UserRepository;
+import courses.paint.mini.repository.user.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

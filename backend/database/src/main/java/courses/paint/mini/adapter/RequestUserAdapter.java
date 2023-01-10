@@ -3,7 +3,7 @@ package courses.paint.mini.adapter;
 import courses.paint.mini.mapper.UserMapper;
 import courses.paint.mini.model.User;
 import courses.paint.mini.port.RequestUserPort;
-import courses.paint.mini.user.UserRepository;
+import courses.paint.mini.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
