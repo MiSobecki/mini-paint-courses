@@ -17,4 +17,6 @@ public interface RequestCoursePort {
     Page<Course> getAll(CourseFilters courseFilters,
                         Pageable pageable);
 
+    Optional<Course> getByCourseStepId(String stepId);
+
 }

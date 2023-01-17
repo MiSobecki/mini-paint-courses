@@ -7,6 +7,10 @@
     <span class="label"><b>Description:</b></span>
     <p>{{courseStep?.description}}</p>
   </h4>
+  <h3 class="header"><b>Uploaded images</b></h3>
+  <div class="images">
+    <img *ngFor='let imageInfo of uploadedImages' src="{{'data:image/jpg;base64,' + imageInfo.imageData}}">
+  </div>
   <h4 class="used-products" *ngIf="courseStep?.paintTechniqueIdToPaintIdMap?.size">
     <span class="label"><b>Used paints:</b></span>
     <mat-chip-listbox>

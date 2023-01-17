@@ -1,0 +1,62 @@
+img {
+  width: 250px;
+  height: 250px;
+}
+
+.mat-input-element {
+  font-size: medium;
+  font-weight: 200;
+}
+
+#fileInput {
+  position: absolute;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  height: 100%;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+.mat-toolbar-single-row {
+  height: auto !important;
+  background: transparent;
+  padding: 0;
+  width: 100%;
+}
+
+.mat-toolbar-single-row button {
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.list-card {
+  margin-top: 20px;
+}
+
+.list-item {
+  margin-bottom: 20px;
+}
+
+.upload-images {
+  width: 100%;
+}
+
+input {
+  width: 100%;
+}
+
+.mat-mdc-form-field-infix {
+  min-height: 56px;
+
+  width: 100% !important;
+}
+
+.mat-mdc-form-field {
+  width: 100% !important;
+}
+

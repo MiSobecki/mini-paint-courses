@@ -13,6 +13,9 @@ import {Course} from "../../../shared/model/course";
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 import {CourseUpdateDto} from "../../../shared/model/course-update-dto";
 import {CourseStep} from "../../../shared/model/course-step";
+import {CourseStepImagesInfo} from "../../../shared/model/course-step-images-info";
+import {ImageService} from "../../../shared/service/image.service";
+import {CourseStepImage} from "../../../shared/model/course-step-image";
 
 @Component({
   selector: 'app-course-update-page',
@@ -37,13 +40,18 @@ export class CourseUpdatePageComponent implements OnInit {
 
   isLoaded = false;
 
+  courseStepImageInfos: CourseStepImagesInfo[] = [];
+
+  uploadedImages: CourseStepImage[] = [];
+
   constructor(private formBuilder: FormBuilder,
               private paintService: PaintService,
               private paintingTechniqueService: PaintingTechniqueService,
               private courseService: CourseService,
               private modelingProductService: ModelingProductService,
               private router: Router,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private imageService: ImageService) {
     this.basicInfoFormGroup = this.formBuilder.group({});
     this.stepsFormGroup = this.formBuilder.group({});
   }
@@ -75,6 +83,10 @@ export class CourseUpdatePageComponent implements OnInit {
       });
 
       this.isLoaded = true;
+
+      course.steps.forEach(x => this.courseStepImageInfos.push(this.createCourseStepImagesInfo(x.id)));
+
+      this.downloadImages(course);
     });
   }
 
@@ -147,6 +159,7 @@ export class CourseUpdatePageComponent implements OnInit {
     let index = 1;
 
     stepsInfo.steps.forEach((x: {
+      id: string | null;
       paints: { paint: string; technique: string; }[];
       title: string;
       description: string;
@@ -157,7 +170,7 @@ export class CourseUpdatePageComponent implements OnInit {
         paintsMap[paint.paint] = paint.technique;
       })
 
-      const step = new CourseStep(null, index, x.title, x.description, paintsMap, x.modelingProducts);
+      const step = new CourseStep(x.id, index, x.title, x.description, paintsMap, x.modelingProducts);
 
       steps.push(step);
 
@@ -165,6 +178,8 @@ export class CourseUpdatePageComponent implements OnInit {
     });
 
     const courseUpdateDto = new CourseUpdateDto(basicInfo.title, basicInfo.shortDescription, steps);
+
+    this.uploadImages();
 
     if (this.course?.id) {
       this.courseService.update(courseUpdateDto, this.course.id)
@@ -179,9 +194,23 @@ export class CourseUpdatePageComponent implements OnInit {
     this.steps.removeAt(index);
   }
 
+  getCourseStepImages(index: number): CourseStepImage[] {
+    const step = this.steps.at(index) as FormGroup;
+
+    return this.uploadedImages.filter(x => x.courseStepId === step.get('id')?.value);
+  }
+
+  private createCourseStepImagesInfo(courseStepId: string): CourseStepImagesInfo {
+    const info = new CourseStepImagesInfo();
+    info.courseStepId = courseStepId;
+
+    return info;
+  }
+
   private createStepsControls(): FormGroup[] {
     if (this.course) {
       return this.course?.steps.map(x => this.formBuilder.group({
+        id: [x.id],
         title: [x.title, [Validators.required, Validators.maxLength(100)]],
         description: [x.description, [Validators.required, Validators.maxLength(1000)]],
         paints: this.formBuilder.array([...x.paintTechniqueIdToPaintIdMap].map(([key, value]) => this.formBuilder.group({
@@ -193,6 +222,27 @@ export class CourseUpdatePageComponent implements OnInit {
     } else {
       return [];
     }
+  }
+
+  private uploadImages(): void {
+    this.courseStepImageInfos.forEach(stepImages => {
+
+      if (stepImages.selectedFiles) {
+        for (let i = 0; i < stepImages.selectedFiles.length; i++) {
+          this.imageService.upload(stepImages.selectedFiles[i], stepImages.courseStepId);
+        }
+      }
+    })
+  }
+
+  private downloadImages(course: Course) {
+    course.steps.forEach(x => {
+      this.imageService.download(x.id).then(images => {
+        images.forEach(image => {
+          this.uploadedImages.push(image);
+        });
+      });
+    });
   }
 
 }

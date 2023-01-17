@@ -6,7 +6,8 @@ public enum ExceptionType {
     NOT_FOUND,
     NOT_UNIQUE,
     UNKNOWN,
-    ACCESS_DENIED
+    ACCESS_DENIED,
+    WRONG_FILE_FORMAT
 
 
 }
