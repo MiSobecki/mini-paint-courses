@@ -34,6 +34,7 @@ import { CourseUpdatePageComponent } from './main-content/course-update-page/cou
 import {MatExpansionModule} from "@angular/material/expansion";
 import { CourseFiltersComponent } from './main-content/course-filters/course-filters.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { UploadImagesComponent } from './main-content/upload-images/upload-images.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     CourseStepDisplayComponent,
     CourseCreationPageComponent,
     CourseUpdatePageComponent,
-    CourseFiltersComponent
+    CourseFiltersComponent,
+    UploadImagesComponent
   ],
   imports: [
     BrowserModule,

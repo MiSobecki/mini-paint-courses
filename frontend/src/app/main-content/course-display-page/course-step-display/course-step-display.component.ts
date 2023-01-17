@@ -7,6 +7,8 @@ import {PaintingTechnique} from "../../../../shared/model/painting-technique";
 import {PaintingTechniqueService} from "../../../../shared/service/painting-technique.service";
 import {ModelingProduct} from "../../../../shared/model/modeling-product";
 import {ModelingProductService} from "../../../../shared/service/modeling-product.service";
+import {ImageService} from "../../../../shared/service/image.service";
+import {CourseStepImage} from "../../../../shared/model/course-step-image";
 
 @Component({
   selector: 'app-course-step-display',
@@ -23,9 +25,12 @@ export class CourseStepDisplayComponent implements OnInit, OnDestroy {
   private paintingTechniquesSub?: Subscription;
   private modelingProductsSub?: Subscription;
 
+  uploadedImages: CourseStepImage[] = [];
+
   constructor(private paintService: PaintService,
               private paintingTechniqueService: PaintingTechniqueService,
-              private modelingProductService: ModelingProductService) {
+              private modelingProductService: ModelingProductService,
+              private imageService: ImageService) {
   }
 
   @Input() courseStep?: CourseStep;
@@ -44,6 +49,8 @@ export class CourseStepDisplayComponent implements OnInit, OnDestroy {
       (modelingProducts: ModelingProduct[]) => {
         this.modelingProducts = modelingProducts;
       });
+
+    this.downloadImages();
   }
 
   ngOnDestroy(): void {
@@ -62,6 +69,16 @@ export class CourseStepDisplayComponent implements OnInit, OnDestroy {
 
   getModelingProductName(modelingProductId: string): string {
     return this.modelingProducts.find(x => x.id === modelingProductId)?.name || 'Not found modeling product name';
+  }
+
+  private downloadImages() {
+    if (this.courseStep?.id) {
+      this.imageService.download(this.courseStep.id).then(images => {
+        images.forEach(image => {
+          this.uploadedImages.push(image);
+        });
+      });
+    }
   }
 
 }

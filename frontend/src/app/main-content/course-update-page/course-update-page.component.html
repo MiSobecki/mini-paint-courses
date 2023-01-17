@@ -60,6 +60,12 @@
                     <textarea matInput placeholder="Step description" formControlName="description"
                               class="description"></textarea>
                   </mat-form-field>
+                  <h3 class="header"><b>Uploaded images</b></h3>
+                  <div>
+                    <img *ngFor='let imageInfo of getCourseStepImages(i)' src="{{'data:image/jpg;base64,' + imageInfo.imageData}}">
+                  </div>
+                  <h3 class="header"><b>Add new images</b></h3>
+                  <app-upload-images [(courseStepImagesInfo)]="courseStepImageInfos[i]"></app-upload-images>
                   <div class="used-paints">
                     <button color="primary" mat-button (click)="addPaint(i)">Add used paint</button>
                     <h3 class="header"><b>Used paints</b></h3>

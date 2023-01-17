@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/api/games/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/factions/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/producers").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/course-step-images/**").permitAll()
                 .antMatchers("/h2-console").permitAll()
                 .anyRequest().authenticated()
                 .and()

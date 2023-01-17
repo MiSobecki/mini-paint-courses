@@ -1,0 +1,21 @@
+<div class="upload-images">
+  <mat-form-field>
+    <div>
+      <mat-toolbar>
+        <input matInput
+               [value]="courseStepImagesInfo?.selectedFileNames?.length ? courseStepImagesInfo?.selectedFileNames?.toString() : 'Select Images'"/>
+      </mat-toolbar>
+
+      <input
+        type="file"
+        id="fileInput"
+        name="fileInput"
+        accept="image/*" multiple
+        (change)="selectFiles($event)"
+      />
+    </div>
+  </mat-form-field>
+  <div>
+    <img *ngFor='let preview of courseStepImagesInfo?.previews' [src]="preview">
+  </div>
+</div>

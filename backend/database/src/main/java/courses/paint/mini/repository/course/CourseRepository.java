@@ -11,4 +11,6 @@ public interface CourseRepository extends JpaRepository<CourseEntity, String>, J
     Optional<CourseEntity> findByTitleAndUserId(String title,
                                                 String userId);
 
+    Optional<CourseEntity> findByStepsId(String courseStepId);
+
 }

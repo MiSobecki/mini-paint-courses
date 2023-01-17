@@ -9,8 +9,8 @@ public class NotFoundCourseException extends BasicException {
 
     private final ExceptionType exceptionType;
 
-    public NotFoundCourseException(String courseId) {
-        super("Course of id: '" + courseId + "' does not exist");
+    public NotFoundCourseException(String message) {
+        super(message);
         exceptionType = ExceptionType.NOT_FOUND;
     }
 }

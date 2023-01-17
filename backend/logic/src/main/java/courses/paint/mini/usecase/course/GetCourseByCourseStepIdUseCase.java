@@ -6,13 +6,13 @@ import courses.paint.mini.port.RequestCoursePort;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class GetCourseByIdUseCase {
+public class GetCourseByCourseStepIdUseCase {
 
     private final RequestCoursePort requestCoursePort;
 
-    public Course execute(String id) {
-        return requestCoursePort.getById(id).orElseThrow(() ->
-                new NotFoundCourseException("Course of id: '" + id + "' does not exist"));
+    public Course execute(String stepId) {
+        return requestCoursePort.getByCourseStepId(stepId).orElseThrow(() ->
+                new NotFoundCourseException("Course with step of id: '" + stepId + "' does not exist"));
     }
 
 }
