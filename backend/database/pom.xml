@@ -16,8 +16,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
-        <flyway.user>sa</flyway.user>
-        <flyway.password>password</flyway.password>
+        <flyway.user>**PASS USER HERE**</flyway.user>
+        <flyway.password>**PASS PASSWORD HERE**</flyway.password>
         <flyway.schemas>PUBLIC</flyway.schemas>
     </properties>
 

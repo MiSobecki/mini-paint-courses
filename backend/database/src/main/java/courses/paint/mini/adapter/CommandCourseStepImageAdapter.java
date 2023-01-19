@@ -28,7 +28,7 @@ public class CommandCourseStepImageAdapter implements CommandCourseStepImagePort
 
     @Override
     public void delete(String id) {
-        courseStepImageRepository.deleteById(id);
+        courseStepImageRepository.deleteByCourseStepId(id);
     }
 
 }

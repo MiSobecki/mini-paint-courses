@@ -9,4 +9,6 @@ public interface CourseStepImageRepository extends JpaRepository<CourseStepImage
 
     List<CourseStepImageEntity> findAllByCourseStepId(String courseStepId);
 
+    void deleteByCourseStepId(String courseStepId);
+
 }

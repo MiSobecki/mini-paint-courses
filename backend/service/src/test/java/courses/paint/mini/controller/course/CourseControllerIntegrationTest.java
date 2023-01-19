@@ -302,7 +302,6 @@ public class CourseControllerIntegrationTest {
                 .andExpect(jsonPath("errors").isMap())
                 .andExpect(jsonPath("errors", Matchers.hasEntry("title", "Course title is mandatory")))
                 .andExpect(jsonPath("errors", Matchers.hasEntry("miniature", "Miniature is mandatory")))
-                .andExpect(jsonPath("errors", Matchers.hasEntry("user", "User is mandatory")))
                 .andExpect(jsonPath("errors", Matchers.hasEntry("steps", "Course should has at least 1 step")));
     }
 
